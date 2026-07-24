@@ -24,11 +24,51 @@
   <!-- Floating Background Canvas -->
   <canvas id="bg-canvas"></canvas>
 
+  <!-- 1. Matrix Code Stream Pre-loader -->
+  <div id="loader-overlay" class="loader-overlay">
+    <canvas id="matrix-canvas"></canvas>
+    <div class="loader-content">
+      <div class="loader-spinner"></div>
+      <div class="code-stream" id="code-stream-text">
+        <span>01001101 01101001 01101000 01101110 01100001 01111010</span>
+        <span class="highlight-code">&lt;system&gt; DECODING_BESTIE_MAGIC... &lt;/system&gt;</span>
+        <span>const love = Infinity; // Dedicated to Mihnaz</span>
+      </div>
+      <p class="loader-sub">Preparing a magical experience for Mihnaz...</p>
+    </div>
+  </div>
+
+  <!-- 2. Entry Surprise Gift Box Screen -->
+  <div id="entry-gift-overlay" class="entry-gift-overlay hidden">
+    <div class="entry-gift-card">
+      <div class="sparkle-badge">
+        <i class="fa-solid fa-sparkles"></i> Special Delivery for Mihnaz
+      </div>
+      <h2 class="entry-title">✨ A Gift For The Best Soul Ever ✨</h2>
+      <p class="entry-subtitle">Tap the gift box below to unwrap your birthday surprise!</p>
+
+      <!-- 3D Entry Gift Box -->
+      <div class="big-gift-box" id="entry-gift-box" onclick="unwrapEntryGift()">
+        <div class="gift-lid-entry">
+          <div class="ribbon-v"></div>
+          <div class="ribbon-h"></div>
+          <div class="bow-entry"></div>
+        </div>
+        <div class="gift-body-entry">
+          <div class="ribbon-v"></div>
+          <div class="ribbon-h"></div>
+        </div>
+      </div>
+
+      <p class="tap-to-open-prompt">🎁 Tap Box To Open 🎁</p>
+    </div>
+  </div>
+
   <!-- Audio Control Floating Bar -->
   <div class="audio-bar">
-    <button id="audio-toggle" class="audio-btn" title="Toggle Birthday Soundtrack">
+    <button id="audio-toggle" class="audio-btn" title="Toggle Romantic Hindi Soundtrack">
       <i class="fa-solid fa-music"></i>
-      <span class="audio-text">Play Music</span>
+      <span class="audio-text">Tum Hi Ho 🎵</span>
       <div class="visualizer" id="visualizer">
         <span></span><span></span><span></span><span></span>
       </div>
@@ -38,8 +78,8 @@
     </button>
   </div>
 
-  <!-- Main Container -->
-  <main class="app-container">
+  <!-- Main Application Container -->
+  <main class="app-container app-hidden" id="app-main">
 
     <!-- Hero Section -->
     <header class="hero-section" id="hero">
@@ -55,7 +95,7 @@
       
       <div class="action-pills">
         <button class="pill-btn primary" onclick="openSurpriseModal()">
-          <i class="fa-solid fa-gift"></i> Open Surprise
+          <i class="fa-solid fa-gift"></i> Open Award
         </button>
         <button class="pill-btn secondary" onclick="scrollToSection('cake-section')">
           <i class="fa-solid fa-cake-candles"></i> Blow Candles
@@ -95,7 +135,7 @@
           
           <div class="wish-interactive-actions">
             <button class="interactive-btn glow-btn" onclick="openSurpriseModal()">
-              <i class="fa-solid fa-wand-magic-sparkles"></i> Unwrap Surprise Box 🎁
+              <i class="fa-solid fa-wand-magic-sparkles"></i> Open Award Certificate 🎁
             </button>
             <button class="interactive-btn hug-btn" onclick="sendVirtualHug()">
               <i class="fa-solid fa-heart-pulse"></i> Send Virtual Hug 💖
@@ -172,7 +212,6 @@
               <!-- Candle 1 -->
               <g class="candle" id="candle-1" onclick="blowCandle(1)">
                 <rect x="110" y="25" width="8" height="42" rx="3" fill="#4cc9f0"/>
-                <!-- Flame -->
                 <g class="flame-group" id="flame-1">
                   <ellipse cx="114" cy="18" rx="6" ry="12" fill="#ffb703" filter="url(#glow)" class="flame-outer"/>
                   <ellipse cx="114" cy="19" rx="3" ry="7" fill="#fff" class="flame-inner"/>
@@ -183,7 +222,6 @@
               <!-- Candle 2 (Center) -->
               <g class="candle" id="candle-2" onclick="blowCandle(2)">
                 <rect x="146" y="15" width="8" height="52" rx="3" fill="#ff758c"/>
-                <!-- Flame -->
                 <g class="flame-group" id="flame-2">
                   <ellipse cx="150" cy="8" rx="7" ry="13" fill="#ff9e00" filter="url(#glow)" class="flame-outer"/>
                   <ellipse cx="150" cy="9" rx="3.5" ry="7.5" fill="#fff" class="flame-inner"/>
@@ -194,7 +232,6 @@
               <!-- Candle 3 -->
               <g class="candle" id="candle-3" onclick="blowCandle(3)">
                 <rect x="182" y="25" width="8" height="42" rx="3" fill="#7b2cbf"/>
-                <!-- Flame -->
                 <g class="flame-group" id="flame-3">
                   <ellipse cx="186" cy="18" rx="6" ry="12" fill="#ffb703" filter="url(#glow)" class="flame-outer"/>
                   <ellipse cx="186" cy="19" rx="3" ry="7" fill="#fff" class="flame-inner"/>

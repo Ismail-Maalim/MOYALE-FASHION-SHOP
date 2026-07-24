@@ -4,16 +4,89 @@
 
 document.addEventListener('DOMContentLoaded', () => {
   initBackgroundCanvas();
+  initMatrixLoader();
   initAudioPlayer();
-  
-  // Trigger initial celebration confetti after short delay
-  setTimeout(() => {
-    triggerConfettiExplosion();
-  }, 600);
 });
 
 /* --------------------------------------------------------------------------
-   1. Background Canvas Floating Particles & Hearts
+   1. Matrix / Cyber-Romantic Code Rain Pre-loader
+   -------------------------------------------------------------------------- */
+function initMatrixLoader() {
+  const canvas = document.getElementById('matrix-canvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  
+  let width = canvas.width = window.innerWidth;
+  let height = canvas.height = window.innerHeight;
+  
+  const characters = '01MIHNAZ💖✨const love = Infinity; 01001101 01101001 01101000 01101110 01100001 01111010';
+  const fontSize = 14;
+  const columns = Math.floor(width / fontSize);
+  const drops = Array(columns).fill(1);
+  
+  function drawMatrix() {
+    ctx.fillStyle = 'rgba(5, 3, 10, 0.1)';
+    ctx.fillRect(0, 0, width, height);
+    
+    ctx.fillStyle = '#ff6584';
+    ctx.font = fontSize + 'px monospace';
+    
+    for (let i = 0; i < drops.length; i++) {
+      const text = characters.charAt(Math.floor(Math.random() * characters.length));
+      ctx.fillStyle = Math.random() > 0.85 ? '#ffd166' : '#ff6584';
+      ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+      
+      if (drops[i] * fontSize > height && Math.random() > 0.975) {
+        drops[i] = 0;
+      }
+      drops[i]++;
+    }
+  }
+  
+  const matrixInterval = setInterval(drawMatrix, 35);
+  
+  // Transition from loader to Entry Gift Screen after 2.4s
+  setTimeout(() => {
+    clearInterval(matrixInterval);
+    const loader = document.getElementById('loader-overlay');
+    const entryOverlay = document.getElementById('entry-gift-overlay');
+    
+    if (loader) loader.classList.add('fade-out');
+    if (entryOverlay) entryOverlay.classList.remove('hidden');
+  }, 2400);
+}
+
+/* --------------------------------------------------------------------------
+   2. Entry Gift Unboxing & App Reveal Sequence
+   -------------------------------------------------------------------------- */
+let isAppOpened = false;
+
+function unwrapEntryGift() {
+  if (isAppOpened) return;
+  isAppOpened = true;
+  
+  const bigBox = document.getElementById('entry-gift-box');
+  const entryOverlay = document.getElementById('entry-gift-overlay');
+  const mainApp = document.getElementById('app-main');
+  
+  if (bigBox) bigBox.classList.add('unwrapped-entry');
+  playChimeSFX();
+  triggerConfettiExplosion();
+  
+  // Start romantic Hindi music automatically on user tap gesture
+  startRomanticMusic();
+
+  setTimeout(() => {
+    if (entryOverlay) entryOverlay.classList.add('hidden');
+    if (mainApp) {
+      mainApp.classList.remove('app-hidden');
+      mainApp.classList.add('app-visible');
+    }
+  }, 600);
+}
+
+/* --------------------------------------------------------------------------
+   3. Background Floating Canvas (Stars & Hearts)
    -------------------------------------------------------------------------- */
 function initBackgroundCanvas() {
   const canvas = document.getElementById('bg-canvas');
@@ -62,7 +135,6 @@ function initBackgroundCanvas() {
       ctx.fillStyle = this.color;
       
       if (this.isHeart) {
-        // Draw Heart
         ctx.beginPath();
         const topCurveHeight = this.size * 0.3;
         ctx.moveTo(this.x, this.y + topCurveHeight);
@@ -72,7 +144,6 @@ function initBackgroundCanvas() {
         ctx.bezierCurveTo(this.x + this.size / 2, this.y, this.x, this.y, this.x, this.y + topCurveHeight);
         ctx.fill();
       } else {
-        // Draw Glowing Bokeh Circle
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
         ctx.shadowBlur = 10;
@@ -101,12 +172,11 @@ function initBackgroundCanvas() {
 }
 
 /* --------------------------------------------------------------------------
-   2. Confetti Explosion System (using canvas-confetti CDN)
+   4. Confetti Explosion System
    -------------------------------------------------------------------------- */
 function triggerConfettiExplosion() {
   playChimeSFX();
   if (typeof confetti === 'function') {
-    // Left side burst
     confetti({
       particleCount: 70,
       angle: 60,
@@ -115,7 +185,6 @@ function triggerConfettiExplosion() {
       colors: ['#ff6584', '#ffd166', '#9d4edd', '#ffffff']
     });
     
-    // Right side burst
     confetti({
       particleCount: 70,
       angle: 120,
@@ -124,7 +193,6 @@ function triggerConfettiExplosion() {
       colors: ['#ff6584', '#ffd166', '#4cc9f0', '#ffffff']
     });
     
-    // Center stream
     setTimeout(() => {
       confetti({
         particleCount: 90,
@@ -147,8 +215,6 @@ function sendVirtualHug() {
       colors: ['#ff6584', '#ff85a1', '#ffffff']
     });
   }
-  
-  // Show notification feedback
   showToast("💖 Sent a warm virtual hug to Mihnaz!");
 }
 
@@ -183,7 +249,7 @@ function showToast(msg) {
 }
 
 /* --------------------------------------------------------------------------
-   3. Web Audio API Melody Synthesizer (Happy Birthday Tune)
+   5. Web Audio Synth: Popular Romantic Hindi Song ("Tum Hi Ho" Melody)
    -------------------------------------------------------------------------- */
 let audioCtx = null;
 let isMusicPlaying = false;
@@ -196,39 +262,46 @@ function initAudioContext() {
   }
 }
 
-const birthdayNotes = [
-  // Happy Birthday To You
-  { note: 261.63, duration: 0.4 }, // C4
-  { note: 261.63, duration: 0.2 }, // C4
-  { note: 293.66, duration: 0.6 }, // D4
-  { note: 261.63, duration: 0.6 }, // C4
-  { note: 349.23, duration: 0.6 }, // F4
-  { note: 329.63, duration: 1.0 }, // E4
+// "Tum Hi Ho" Iconic Romantic Hindi Song Melody Notes (Key of F# Minor)
+const hindiLoveNotes = [
+  // Intro Hook: "Hum tere bin ab reh nahi sakte..."
+  { note: 369.99, duration: 0.45 }, // F#4
+  { note: 392.00, duration: 0.45 }, // G4
+  { note: 440.00, duration: 0.45 }, // A4
+  { note: 493.88, duration: 0.60 }, // B4
+  { note: 440.00, duration: 0.45 }, // A4
+  { note: 392.00, duration: 0.45 }, // G4
+  { note: 369.99, duration: 0.80 }, // F#4
 
-  // Happy Birthday To You
-  { note: 261.63, duration: 0.4 }, // C4
-  { note: 261.63, duration: 0.2 }, // C4
-  { note: 293.66, duration: 0.6 }, // D4
-  { note: 261.63, duration: 0.6 }, // C4
-  { note: 392.00, duration: 0.6 }, // G4
-  { note: 349.23, duration: 1.0 }, // F4
+  // "Tere bina kya wajood mera..."
+  { note: 369.99, duration: 0.45 }, // F#4
+  { note: 392.00, duration: 0.45 }, // G4
+  { note: 440.00, duration: 0.45 }, // A4
+  { note: 493.88, duration: 0.60 }, // B4
+  { note: 554.37, duration: 0.45 }, // C#5
+  { note: 493.88, duration: 0.45 }, // B4
+  { note: 440.00, duration: 0.90 }, // A4
 
-  // Happy Birthday Dear Mihnaz
-  { note: 261.63, duration: 0.4 }, // C4
-  { note: 261.63, duration: 0.2 }, // C4
-  { note: 523.25, duration: 0.6 }, // C5
-  { note: 440.00, duration: 0.6 }, // A4
-  { note: 349.23, duration: 0.6 }, // F4
-  { note: 329.63, duration: 0.6 }, // E4
-  { note: 293.66, duration: 0.8 }, // D4
+  // Chorus: "Kyunki tum hi ho... ab tum hi ho..."
+  { note: 554.37, duration: 0.50 }, // C#5
+  { note: 587.33, duration: 0.40 }, // D5
+  { note: 554.37, duration: 0.50 }, // C#5
+  { note: 493.88, duration: 0.50 }, // B4
+  { note: 440.00, duration: 0.80 }, // A4
 
-  // Happy Birthday To You
-  { note: 466.16, duration: 0.4 }, // Bb4
-  { note: 466.16, duration: 0.2 }, // Bb4
-  { note: 440.00, duration: 0.6 }, // A4
-  { note: 349.23, duration: 0.6 }, // F4
-  { note: 392.00, duration: 0.6 }, // G4
-  { note: 349.23, duration: 1.2 }  // F4
+  // "Zindagi ab tum hi ho..."
+  { note: 493.88, duration: 0.50 }, // B4
+  { note: 554.37, duration: 0.40 }, // C#5
+  { note: 493.88, duration: 0.50 }, // B4
+  { note: 440.00, duration: 0.50 }, // A4
+  { note: 392.00, duration: 0.80 }, // G4
+
+  // "Chain bhi, mera dard bhi... meri aashiqui ab tum hi ho..."
+  { note: 440.00, duration: 0.45 }, // A4
+  { note: 493.88, duration: 0.45 }, // B4
+  { note: 440.00, duration: 0.45 }, // A4
+  { note: 392.00, duration: 0.45 }, // G4
+  { note: 369.99, duration: 1.20 }  // F#4
 ];
 
 function playNote(freq, duration) {
@@ -237,11 +310,11 @@ function playNote(freq, duration) {
   const osc = audioCtx.createOscillator();
   const gain = audioCtx.createGain();
   
-  osc.type = 'triangle';
+  osc.type = 'sine';
   osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
   
   gain.gain.setValueAtTime(0.01, audioCtx.currentTime);
-  gain.gain.exponentialRampToValueAtTime(0.18, audioCtx.currentTime + 0.05);
+  gain.gain.exponentialRampToValueAtTime(0.2, audioCtx.currentTime + 0.08);
   gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration - 0.05);
   
   osc.connect(gain);
@@ -255,12 +328,29 @@ function startMelodyLoop() {
   let index = 0;
   function step() {
     if (!isMusicPlaying) return;
-    const current = birthdayNotes[index];
+    const current = hindiLoveNotes[index];
     playNote(current.note, current.duration);
-    index = (index + 1) % birthdayNotes.length;
-    melodyInterval = setTimeout(step, current.duration * 1000 + 80);
+    index = (index + 1) % hindiLoveNotes.length;
+    melodyInterval = setTimeout(step, current.duration * 1000 + 70);
   }
   step();
+}
+
+function startRomanticMusic() {
+  initAudioContext();
+  if (audioCtx.state === 'suspended') {
+    audioCtx.resume();
+  }
+  
+  const toggleBtn = document.getElementById('audio-toggle');
+  const visualizer = document.getElementById('visualizer');
+  
+  isMusicPlaying = true;
+  if (toggleBtn) toggleBtn.querySelector('.audio-text').textContent = 'Tum Hi Ho 🎵';
+  if (visualizer) visualizer.classList.add('playing');
+  
+  if (melodyInterval) clearTimeout(melodyInterval);
+  startMelodyLoop();
 }
 
 function initAudioPlayer() {
@@ -278,7 +368,7 @@ function initAudioPlayer() {
       
       isMusicPlaying = !isMusicPlaying;
       if (isMusicPlaying) {
-        toggleBtn.querySelector('.audio-text').textContent = 'Pause Music';
+        toggleBtn.querySelector('.audio-text').textContent = 'Tum Hi Ho 🎵';
         visualizer.classList.add('playing');
         startMelodyLoop();
       } else {
@@ -303,7 +393,6 @@ function initAudioPlayer() {
   }
 }
 
-// Sound Effect Generators
 function playChimeSFX() {
   if (!sfxEnabled) return;
   initAudioContext();
@@ -329,7 +418,6 @@ function playBlowSFX() {
   initAudioContext();
   if (audioCtx.state === 'suspended') audioCtx.resume();
   
-  // White noise puff sound for candle blow
   const bufferSize = audioCtx.sampleRate * 0.3;
   const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
   const data = buffer.getChannelData(0);
@@ -373,7 +461,7 @@ function playHeartSFX() {
 }
 
 /* --------------------------------------------------------------------------
-   4. Interactive Birthday Cake & Candle Blowing Logic
+   6. Birthday Cake & Candle Blowing Logic
    -------------------------------------------------------------------------- */
 const blownCandles = new Set();
 
@@ -388,7 +476,6 @@ function blowCandle(id) {
     candleEl.classList.add('blown');
   }
   
-  // Check if all 3 candles are blown
   if (blownCandles.size === 3) {
     handleAllCandlesBlown();
   }
@@ -410,16 +497,13 @@ function handleAllCandlesBlown() {
 }
 
 /* --------------------------------------------------------------------------
-   5. Memory Cards Flip Interaction
+   7. Memory Cards & Affirmations Interaction
    -------------------------------------------------------------------------- */
 function flipMemoryCard(card) {
   playChimeSFX();
   card.classList.toggle('flipped');
 }
 
-/* --------------------------------------------------------------------------
-   6. Affirmations Wall Interaction
-   -------------------------------------------------------------------------- */
 function revealAffirmation(el, text) {
   playChimeSFX();
   const displayBox = document.getElementById('affirmation-display');
@@ -432,7 +516,7 @@ function revealAffirmation(el, text) {
 }
 
 /* --------------------------------------------------------------------------
-   7. Gift Box & Surprise Modal Logic
+   8. Award Surprise Modal Logic
    -------------------------------------------------------------------------- */
 function openSurpriseModal() {
   playChimeSFX();
@@ -462,7 +546,7 @@ function unwrapGift() {
 }
 
 /* --------------------------------------------------------------------------
-   8. QR Code & Link Sharing Modal
+   9. Dynamic QR Code Modal
    -------------------------------------------------------------------------- */
 function openQRModal() {
   playChimeSFX();
@@ -502,11 +586,7 @@ function scrollToSection(id) {
   }
 }
 
-/* --------------------------------------------------------------------------
-   9. Image Error Fallback Handlers
-   -------------------------------------------------------------------------- */
 function handlePhotoError(img) {
-  // If local asset missing, fallback to inline SVG elegant placeholder
   img.onerror = null;
   img.src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="300" height="400" viewBox="0 0 300 400"><defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="%23ff758c"/><stop offset="100%" stop-color="%239d4edd"/></linearGradient></defs><rect width="300" height="400" fill="url(%23bg)"/><text x="150" y="190" fill="%23ffffff" font-family="sans-serif" font-size="28" font-weight="bold" text-anchor="middle">👑 Mihnaz</text><text x="150" y="225" fill="%23ffd166" font-family="sans-serif" font-size="16" text-anchor="middle">The Best Soul Ever</text></svg>';
 }
