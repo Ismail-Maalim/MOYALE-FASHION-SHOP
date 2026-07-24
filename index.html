@@ -38,7 +38,68 @@
     </div>
   </div>
 
-  <!-- 2. Entry Surprise Gift Box Screen -->
+  <!-- 2. Animated Countdown Timer Screen -->
+  <div id="countdown-overlay" class="countdown-overlay hidden">
+    <div class="countdown-card">
+      <div class="sparkle-badge">
+        <i class="fa-solid fa-clock"></i> Preparing Birthday Magic
+      </div>
+      <h2 class="countdown-title">Special Birthday Countdown</h2>
+      <div class="countdown-circle">
+        <span id="countdown-num">3</span>
+      </div>
+      <p class="countdown-sub" id="countdown-sub-text">✨ Initializing Secret Flower Portal... ✨</p>
+    </div>
+  </div>
+
+  <!-- 3. Secret 9-Flower Pattern Lock Screen -->
+  <div id="flower-puzzle-overlay" class="flower-puzzle-overlay hidden">
+    <div class="puzzle-card">
+      <div class="sparkle-badge">
+        <i class="fa-solid fa-key"></i> Flower Secret Lock
+      </div>
+      <h2 class="puzzle-title">🌸 Bloom All 9 Flowers to Unlock 🌸</h2>
+      <p class="puzzle-desc">Tap each flower bud below to reveal its bloom and open Mihnaz's surprise!</p>
+
+      <div class="flower-counter-badge" id="flower-counter">
+        <span>🌸 Bloomed: 0 / 9</span>
+      </div>
+
+      <!-- 9 Flower Grid (3x3) -->
+      <div class="flower-grid">
+        <div class="flower-tile" data-index="0" onclick="bloomFlower(this, '🌺')">
+          <div class="flower-inner"><span class="flower-symbol">🔒</span></div>
+        </div>
+        <div class="flower-tile" data-index="1" onclick="bloomFlower(this, '🌷')">
+          <div class="flower-inner"><span class="flower-symbol">🔒</span></div>
+        </div>
+        <div class="flower-tile" data-index="2" onclick="bloomFlower(this, '🌹')">
+          <div class="flower-inner"><span class="flower-symbol">🔒</span></div>
+        </div>
+        <div class="flower-tile" data-index="3" onclick="bloomFlower(this, '🌻')">
+          <div class="flower-inner"><span class="flower-symbol">🔒</span></div>
+        </div>
+        <div class="flower-tile" data-index="4" onclick="bloomFlower(this, '🌼')">
+          <div class="flower-inner"><span class="flower-symbol">🔒</span></div>
+        </div>
+        <div class="flower-tile" data-index="5" onclick="bloomFlower(this, '🪻')">
+          <div class="flower-inner"><span class="flower-symbol">🔒</span></div>
+        </div>
+        <div class="flower-tile" data-index="6" onclick="bloomFlower(this, '🪷')">
+          <div class="flower-inner"><span class="flower-symbol">🔒</span></div>
+        </div>
+        <div class="flower-tile" data-index="7" onclick="bloomFlower(this, '🌸')">
+          <div class="flower-inner"><span class="flower-symbol">🔒</span></div>
+        </div>
+        <div class="flower-tile" data-index="8" onclick="bloomFlower(this, '💐')">
+          <div class="flower-inner"><span class="flower-symbol">🔒</span></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 4. Entry Surprise Gift Box Screen -->
   <div id="entry-gift-overlay" class="entry-gift-overlay hidden">
     <div class="entry-gift-card">
       <div class="sparkle-badge">

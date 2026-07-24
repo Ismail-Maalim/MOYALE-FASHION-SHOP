@@ -140,7 +140,192 @@ html, body {
 }
 
 /* ==========================================================================
-   2. Entry Surprise Gift Screen Overlay
+   2. Animated Countdown Timer Screen Overlay
+   ========================================================================== */
+.countdown-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(7, 5, 14, 0.95);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  z-index: 9500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  transition: opacity 0.6s ease, visibility 0.6s ease;
+}
+
+.countdown-overlay.fade-out {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.countdown-card {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  background: var(--glass-bg);
+  backdrop-filter: blur(16px);
+  border: var(--glass-border);
+  border-radius: var(--radius-lg);
+  padding: 36px 28px;
+  box-shadow: var(--glass-shadow);
+  max-width: 360px;
+  width: 100%;
+}
+
+.countdown-title {
+  font-family: var(--font-heading);
+  font-size: 1.5rem;
+  color: var(--accent-gold);
+}
+
+.countdown-circle {
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(255, 101, 132, 0.2), rgba(157, 78, 221, 0.2));
+  border: 3px solid var(--accent-pink);
+  box-shadow: 0 0 30px rgba(255, 101, 132, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 10px 0;
+}
+
+#countdown-num {
+  font-family: var(--font-heading);
+  font-size: 3.5rem;
+  font-weight: 700;
+  color: #fff;
+  text-shadow: 0 0 20px var(--accent-pink);
+  animation: pulseScale 0.9s infinite alternate;
+}
+
+@keyframes pulseScale {
+  0% { transform: scale(1); }
+  100% { transform: scale(1.15); }
+}
+
+.countdown-sub {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+/* ==========================================================================
+   3. Secret 9-Flower Pattern Lock Screen Overlay
+   ========================================================================== */
+.flower-puzzle-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(7, 5, 14, 0.95);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  z-index: 9200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  transition: opacity 0.6s ease, visibility 0.6s ease;
+}
+
+.flower-puzzle-overlay.fade-out {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.puzzle-card {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  background: var(--glass-bg);
+  backdrop-filter: blur(16px);
+  border: var(--glass-border);
+  border-radius: var(--radius-lg);
+  padding: 32px 24px;
+  box-shadow: var(--glass-shadow);
+  max-width: 400px;
+  width: 100%;
+}
+
+.puzzle-title {
+  font-family: var(--font-heading);
+  font-size: 1.4rem;
+  background: linear-gradient(135deg, #ffd166, #ff6584);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.puzzle-desc {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+}
+
+.flower-counter-badge {
+  background: linear-gradient(90deg, rgba(255, 101, 132, 0.25), rgba(157, 78, 221, 0.25));
+  border: 1px solid var(--accent-pink);
+  color: var(--accent-rose);
+  padding: 6px 18px;
+  border-radius: 20px;
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+/* 3x3 Flower Grid */
+.flower-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  width: 100%;
+  margin-top: 10px;
+}
+
+.flower-tile {
+  aspect-ratio: 1;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.2rem;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.flower-tile:hover {
+  background: rgba(255, 101, 132, 0.2);
+  border-color: var(--accent-pink);
+  transform: translateY(-4px) scale(1.05);
+}
+
+.flower-tile.bloomed {
+  background: linear-gradient(135deg, rgba(255, 101, 132, 0.35), rgba(255, 209, 102, 0.35));
+  border-color: var(--accent-gold);
+  box-shadow: 0 0 20px rgba(255, 209, 102, 0.5);
+  animation: bloomPop 0.4s ease forwards;
+}
+
+@keyframes bloomPop {
+  0% { transform: scale(0.8); }
+  50% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+
+/* ==========================================================================
+   4. Entry Surprise Gift Screen Overlay
    ========================================================================== */
 .entry-gift-overlay {
   position: fixed;
@@ -280,7 +465,7 @@ html, body {
 }
 
 /* ==========================================================================
-   3. Main Layout & Component Styles
+   5. Main Layout & Component Styles
    ========================================================================== */
 
 .app-container {

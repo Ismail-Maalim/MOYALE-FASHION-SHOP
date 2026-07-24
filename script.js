@@ -45,19 +45,100 @@ function initMatrixLoader() {
   
   const matrixInterval = setInterval(drawMatrix, 35);
   
-  // Transition from loader to Entry Gift Screen after 2.4s
+  // After 2.4s of Matrix stream, transition to Countdown Timer
   setTimeout(() => {
     clearInterval(matrixInterval);
     const loader = document.getElementById('loader-overlay');
-    const entryOverlay = document.getElementById('entry-gift-overlay');
-    
     if (loader) loader.classList.add('fade-out');
-    if (entryOverlay) entryOverlay.classList.remove('hidden');
+    
+    startCountdown();
   }, 2400);
 }
 
 /* --------------------------------------------------------------------------
-   2. Entry Gift Unboxing & App Reveal Sequence
+   2. Animated Countdown Timer Sequence
+   -------------------------------------------------------------------------- */
+function startCountdown() {
+  const countdownOverlay = document.getElementById('countdown-overlay');
+  const numEl = document.getElementById('countdown-num');
+  const subEl = document.getElementById('countdown-sub-text');
+  
+  if (countdownOverlay) countdownOverlay.classList.remove('hidden');
+  
+  let count = 3;
+  playChimeSFX();
+  
+  const timer = setInterval(() => {
+    count--;
+    if (count > 0) {
+      if (numEl) numEl.innerText = count;
+      playChimeSFX();
+    } else {
+      clearInterval(timer);
+      if (numEl) numEl.innerText = "✨";
+      if (subEl) subEl.innerText = "🌸 Unlocking Secret Flower Lock... 🌸";
+      playHeartSFX();
+      
+      setTimeout(() => {
+        if (countdownOverlay) countdownOverlay.classList.add('fade-out');
+        openFlowerPuzzle();
+      }, 700);
+    }
+  }, 900);
+}
+
+/* --------------------------------------------------------------------------
+   3. Secret 9-Flower Pattern Lock Logic
+   -------------------------------------------------------------------------- */
+const bloomedSet = new Set();
+const TOTAL_FLOWERS = 9;
+
+function openFlowerPuzzle() {
+  const puzzleOverlay = document.getElementById('flower-puzzle-overlay');
+  if (puzzleOverlay) puzzleOverlay.classList.remove('hidden');
+}
+
+function bloomFlower(tile, flowerEmoji) {
+  const idx = tile.getAttribute('data-index');
+  if (bloomedSet.has(idx)) return;
+  
+  bloomedSet.add(idx);
+  tile.classList.add('bloomed');
+  
+  const innerSpan = tile.querySelector('.flower-symbol');
+  if (innerSpan) {
+    innerSpan.innerText = flowerEmoji;
+  }
+  
+  playChimeSFX();
+  
+  // Update counter
+  const counterEl = document.getElementById('flower-counter');
+  if (counterEl) {
+    counterEl.innerText = `🌸 Bloomed: ${bloomedSet.size} / ${TOTAL_FLOWERS}`;
+  }
+  
+  // Check if all 9 flowers are bloomed
+  if (bloomedSet.size === TOTAL_FLOWERS) {
+    handleAllFlowersBloomed();
+  }
+}
+
+function handleAllFlowersBloomed() {
+  triggerConfettiExplosion();
+  showToast("🌸 All 9 Flowers Bloomed! Unlocking Gift Box...");
+  
+  setTimeout(() => {
+    const puzzleOverlay = document.getElementById('flower-puzzle-overlay');
+    const entryOverlay = document.getElementById('entry-gift-overlay');
+    
+    if (puzzleOverlay) puzzleOverlay.classList.add('fade-out');
+    if (entryOverlay) entryOverlay.classList.remove('hidden');
+  }, 900);
+}
+
+/* --------------------------------------------------------------------------
+   4. Entry Gift Unboxing & App Reveal Sequence
    -------------------------------------------------------------------------- */
 let isAppOpened = false;
 
@@ -86,7 +167,7 @@ function unwrapEntryGift() {
 }
 
 /* --------------------------------------------------------------------------
-   3. Background Floating Canvas (Stars & Hearts)
+   5. Background Floating Canvas (Stars & Hearts)
    -------------------------------------------------------------------------- */
 function initBackgroundCanvas() {
   const canvas = document.getElementById('bg-canvas');
@@ -172,7 +253,7 @@ function initBackgroundCanvas() {
 }
 
 /* --------------------------------------------------------------------------
-   4. Confetti Explosion System
+   6. Confetti Explosion System
    -------------------------------------------------------------------------- */
 function triggerConfettiExplosion() {
   playChimeSFX();
@@ -249,7 +330,7 @@ function showToast(msg) {
 }
 
 /* --------------------------------------------------------------------------
-   5. Web Audio Synth: Popular Romantic Hindi Song ("Tum Hi Ho" Melody)
+   7. Web Audio Synth: Popular Romantic Hindi Song ("Tum Hi Ho" Melody)
    -------------------------------------------------------------------------- */
 let audioCtx = null;
 let isMusicPlaying = false;
@@ -262,9 +343,8 @@ function initAudioContext() {
   }
 }
 
-// "Tum Hi Ho" Iconic Romantic Hindi Song Melody Notes (Key of F# Minor)
+// "Tum Hi Ho" Iconic Romantic Hindi Song Melody Notes
 const hindiLoveNotes = [
-  // Intro Hook: "Hum tere bin ab reh nahi sakte..."
   { note: 369.99, duration: 0.45 }, // F#4
   { note: 392.00, duration: 0.45 }, // G4
   { note: 440.00, duration: 0.45 }, // A4
@@ -273,7 +353,6 @@ const hindiLoveNotes = [
   { note: 392.00, duration: 0.45 }, // G4
   { note: 369.99, duration: 0.80 }, // F#4
 
-  // "Tere bina kya wajood mera..."
   { note: 369.99, duration: 0.45 }, // F#4
   { note: 392.00, duration: 0.45 }, // G4
   { note: 440.00, duration: 0.45 }, // A4
@@ -282,21 +361,18 @@ const hindiLoveNotes = [
   { note: 493.88, duration: 0.45 }, // B4
   { note: 440.00, duration: 0.90 }, // A4
 
-  // Chorus: "Kyunki tum hi ho... ab tum hi ho..."
   { note: 554.37, duration: 0.50 }, // C#5
   { note: 587.33, duration: 0.40 }, // D5
   { note: 554.37, duration: 0.50 }, // C#5
   { note: 493.88, duration: 0.50 }, // B4
   { note: 440.00, duration: 0.80 }, // A4
 
-  // "Zindagi ab tum hi ho..."
   { note: 493.88, duration: 0.50 }, // B4
   { note: 554.37, duration: 0.40 }, // C#5
   { note: 493.88, duration: 0.50 }, // B4
   { note: 440.00, duration: 0.50 }, // A4
   { note: 392.00, duration: 0.80 }, // G4
 
-  // "Chain bhi, mera dard bhi... meri aashiqui ab tum hi ho..."
   { note: 440.00, duration: 0.45 }, // A4
   { note: 493.88, duration: 0.45 }, // B4
   { note: 440.00, duration: 0.45 }, // A4
@@ -461,7 +537,7 @@ function playHeartSFX() {
 }
 
 /* --------------------------------------------------------------------------
-   6. Birthday Cake & Candle Blowing Logic
+   8. Birthday Cake & Candle Blowing Logic
    -------------------------------------------------------------------------- */
 const blownCandles = new Set();
 
@@ -497,7 +573,7 @@ function handleAllCandlesBlown() {
 }
 
 /* --------------------------------------------------------------------------
-   7. Memory Cards & Affirmations Interaction
+   9. Memory Cards & Affirmations Interaction
    -------------------------------------------------------------------------- */
 function flipMemoryCard(card) {
   playChimeSFX();
@@ -516,7 +592,7 @@ function revealAffirmation(el, text) {
 }
 
 /* --------------------------------------------------------------------------
-   8. Award Surprise Modal Logic
+   10. Award Surprise Modal Logic
    -------------------------------------------------------------------------- */
 function openSurpriseModal() {
   playChimeSFX();
@@ -546,7 +622,7 @@ function unwrapGift() {
 }
 
 /* --------------------------------------------------------------------------
-   9. Dynamic QR Code Modal
+   11. Dynamic QR Code Modal
    -------------------------------------------------------------------------- */
 function openQRModal() {
   playChimeSFX();
