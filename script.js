@@ -1,17 +1,27 @@
 /* ==========================================================================
-   Garissa and Moyale Fashion Ltd - Interactive Catalog Script
+   Garissa and Moyale Fashion Ltd - Enhanced E-Commerce Engine
+   Features: Fast WebP CDN Delivery, Sorting, Cart Drawer, LocalStorage & WhatsApp Checkout
    Location: Opposite Migingo/KCB, Nandi Hills Town, Kenya
    WhatsApp & Phone: 0793788938
-   Operating Hours: Open 8:00 AM - 9:00 PM Daily
    ========================================================================== */
 
-// --- 1. Comprehensive Cloudinary Product Store ---
-const products = [
+// --- 1. Cloudinary Asset Optimization Helper (WebP & Dynamic Quality) ---
+function optimizeCldUrl(url) {
+  if (!url || typeof url !== 'string') return url;
+  if (url.includes('cloudinary.com') && !url.includes('/f_auto,q_auto/')) {
+    return url.replace('/upload/', '/upload/f_auto,q_auto/');
+  }
+  return url;
+}
+
+// --- 2. Clean Kebab-Case Product Data Store ---
+const rawProducts = [
   // Outerwear & Jackets
   {
-    id: 'prod-varsity-1',
+    id: 'varsity-bomber-jacket',
     title: "Varsity Bomber Jacket",
     category: "clothes",
+    subCat: "jackets",
     gender: "mens",
     genderLabel: "Men's & Unisex Outerwear",
     image: "https://res.cloudinary.com/omvbgydr/image/upload/v1785012781/varsity_mont_dos6ks.png",
@@ -19,9 +29,10 @@ const products = [
     badge: "Best Seller"
   },
   {
-    id: 'prod-varsity-2',
+    id: 'urban-varsity-jacket',
     title: "Urban Varsity Jacket",
     category: "clothes",
+    subCat: "jackets",
     gender: "mens",
     genderLabel: "Men's & Unisex Outerwear",
     image: "https://res.cloudinary.com/omvbgydr/image/upload/v1785008418/varsity_mont_txvc8z.png",
@@ -29,9 +40,10 @@ const products = [
     badge: "Popular"
   },
   {
-    id: 'prod-pillow-jacket',
+    id: 'puffer-pillow-jacket',
     title: "Puffer Pillow Jacket",
     category: "clothes",
+    subCat: "jackets",
     gender: "both",
     genderLabel: "Heavy Winter Wear",
     image: "https://res.cloudinary.com/omvbgydr/image/upload/v1785012775/pillow_jacket_qyzlnw.png",
@@ -39,9 +51,10 @@ const products = [
     badge: "Kwa Bei Nafuu"
   },
   {
-    id: 'prod-planda-jacket',
+    id: 'planda-winter-jacket',
     title: "Planda Winter Jacket",
     category: "clothes",
+    subCat: "jackets",
     gender: "mens",
     genderLabel: "Heavy Winter Wear",
     image: "https://res.cloudinary.com/omvbgydr/image/upload/v1785012776/planda_jacket_n1lpyr.png",
@@ -49,9 +62,10 @@ const products = [
     badge: "Kwa Bei Nafuu"
   },
   {
-    id: 'prod-jacket-xl',
+    id: 'xl-heavy-winter-jacket',
     title: "XL Heavy Winter Jacket",
     category: "clothes",
+    subCat: "jackets",
     gender: "mens",
     genderLabel: "Men Outerwear (XL)",
     image: "https://res.cloudinary.com/omvbgydr/image/upload/v1785012769/jacket_xl_g6wlw8.png",
@@ -59,9 +73,10 @@ const products = [
     badge: "Kwa Bei Nafuu"
   },
   {
-    id: 'prod-jacket-2xl',
+    id: '2xl-insulated-jacket',
     title: "2XL Insulated Jacket",
     category: "clothes",
+    subCat: "jackets",
     gender: "mens",
     genderLabel: "Men Outerwear (2XL)",
     image: "https://res.cloudinary.com/omvbgydr/image/upload/v1785012765/jacket_2xl_ubsy2e.png",
@@ -69,9 +84,10 @@ const products = [
     badge: "Kwa Bei Nafuu"
   },
   {
-    id: 'prod-jacket-3xl',
+    id: '3xl-heavy-winter-jacket',
     title: "3XL Heavy Winter Jacket",
     category: "clothes",
+    subCat: "jackets",
     gender: "mens",
     genderLabel: "Men Outerwear (3XL)",
     image: "https://res.cloudinary.com/omvbgydr/image/upload/v1785012766/jacket_3xl_ctvj0w.png",
@@ -79,9 +95,10 @@ const products = [
     badge: "Kwa Bei Nafuu"
   },
   {
-    id: 'prod-jacket-4xl-1',
+    id: '4xl-puffer-jacket',
     title: "4XL Puffer Jacket",
     category: "clothes",
+    subCat: "jackets",
     gender: "mens",
     genderLabel: "Men Outerwear (4XL)",
     image: "https://res.cloudinary.com/omvbgydr/image/upload/v1785012768/jacket_4xl_cpb4mw.png",
@@ -89,9 +106,10 @@ const products = [
     badge: "Kwa Bei Nafuu"
   },
   {
-    id: 'prod-jacket-4xl-2',
+    id: '4xl-heavy-coat',
     title: "4XL Heavy Coat",
     category: "clothes",
+    subCat: "jackets",
     gender: "mens",
     genderLabel: "Men Outerwear (4XL)",
     image: "https://res.cloudinary.com/omvbgydr/image/upload/v1785012768/jacket_4xl_emkjvs.png",
@@ -99,9 +117,10 @@ const products = [
     badge: "Kwa Bei Nafuu"
   },
   {
-    id: 'prod-denim-fleece',
+    id: 'fleece-lined-denim-jackets',
     title: "Fleece-Lined Denim Jackets",
     category: "clothes",
+    subCat: "jackets",
     gender: "both",
     genderLabel: "Denim Collection",
     image: "https://res.cloudinary.com/omvbgydr/image/upload/v1785012759/denim_jackets_bzej0i.png",
@@ -109,9 +128,10 @@ const products = [
     badge: "Top Rated"
   },
   {
-    id: 'prod-denim-classic',
+    id: 'classic-denim-jacket',
     title: "Classic Denim Jacket",
     category: "clothes",
+    subCat: "jackets",
     gender: "both",
     genderLabel: "Denim Collection",
     image: "https://res.cloudinary.com/omvbgydr/image/upload/v1785012758/denim_jacket_1_sxxyvp.png",
@@ -119,9 +139,10 @@ const products = [
     badge: "Kwa Bei Nafuu"
   },
   {
-    id: 'prod-classic-jacket',
+    id: 'executive-classic-jacket',
     title: "Executive Classic Jacket",
     category: "clothes",
+    subCat: "jackets",
     gender: "mens",
     genderLabel: "Men Official Wear",
     image: "https://res.cloudinary.com/omvbgydr/image/upload/v1785012757/classic_jacket_vlcbaz.png",
@@ -129,9 +150,10 @@ const products = [
     badge: "Kwa Bei Nafuu"
   },
   {
-    id: 'prod-jackets-casual',
+    id: 'mens-casual-zip-jackets',
     title: "Men's Casual Zip Jackets",
     category: "clothes",
+    subCat: "jackets",
     gender: "mens",
     genderLabel: "Men Outerwear",
     image: "https://res.cloudinary.com/omvbgydr/image/upload/v1785012769/jackets_gtzshh.jpg",
@@ -139,9 +161,10 @@ const products = [
     badge: "Kwa Bei Nafuu"
   },
   {
-    id: 'prod-sweater',
+    id: 'cozy-warm-sweater',
     title: "Cozy Warm Sweater",
     category: "clothes",
+    subCat: "sweaters",
     gender: "both",
     genderLabel: "Knitwear Collection",
     image: "https://res.cloudinary.com/omvbgydr/image/upload/v1785012780/sweater_hvzoth.png",
@@ -151,9 +174,10 @@ const products = [
 
   // Women's Wear & Jeans
   {
-    id: 'prod-womens-jeans',
+    id: 'women-stylish-denim-jeans',
     title: "Women's Stylish Denim Jeans",
     category: "clothes",
+    subCat: "jeans",
     gender: "ladies",
     genderLabel: "Ladies Collection",
     image: "https://res.cloudinary.com/omvbgydr/image/upload/v1785012783/women_s_jeans_c8ggmu.jpg",
@@ -161,9 +185,10 @@ const products = [
     badge: "Hot Deal"
   },
   {
-    id: 'prod-jeans-unisex',
+    id: 'premium-denim-jeans',
     title: "Premium Denim Jeans",
     category: "clothes",
+    subCat: "jeans",
     gender: "both",
     genderLabel: "Jeans Collection",
     image: "https://res.cloudinary.com/omvbgydr/image/upload/v1785012770/jeans_p7hqif.jpg",
@@ -171,9 +196,10 @@ const products = [
     badge: "Kwa Bei Nafuu"
   },
   {
-    id: 'prod-elegance',
+    id: 'elegance-fashion-dress',
     title: "Elegance Fashion Dress",
     category: "clothes",
+    subCat: "dresses",
     gender: "ladies",
     genderLabel: "Ladies Collection",
     image: "https://res.cloudinary.com/omvbgydr/image/upload/v1785012760/elegance_r5wgct.png",
@@ -181,9 +207,10 @@ const products = [
     badge: "Kwa Bei Nafuu"
   },
   {
-    id: 'prod-leopard',
+    id: 'leopard-print-collection',
     title: "Leopard Pattern Fashion Wear",
     category: "clothes",
+    subCat: "dresses",
     gender: "ladies",
     genderLabel: "Ladies Collection",
     image: "https://res.cloudinary.com/omvbgydr/image/upload/v1785012772/leopard_ci9ijf.jpg",
@@ -193,9 +220,10 @@ const products = [
 
   // Women's Mary Jane Shoes & Heels
   {
-    id: 'prod-mj-white-1',
+    id: 'white-mary-jane-strap-heels',
     title: "White Mary Jane Strap Heels",
     category: "shoes",
+    subCat: "mary-jane",
     gender: "ladies",
     genderLabel: "Ladies Footwear",
     image: "https://res.cloudinary.com/omvbgydr/image/upload/v1785012782/white_marry_jane_kkvxqs.png",
@@ -203,9 +231,10 @@ const products = [
     badge: "Featured"
   },
   {
-    id: 'prod-mj-white-2',
+    id: 'white-mary-jane-wedge-heels',
     title: "White Mary Jane Wedge Heels",
     category: "shoes",
+    subCat: "mary-jane",
     gender: "ladies",
     genderLabel: "Ladies Footwear",
     image: "https://res.cloudinary.com/omvbgydr/image/upload/v1785012782/white_marry_jane_2_tjrnge.png",
@@ -213,9 +242,10 @@ const products = [
     badge: "Kwa Bei Nafuu"
   },
   {
-    id: 'prod-mj-black',
+    id: 'black-mary-jane-strap-heels',
     title: "Black Mary Jane Strap Heels",
     category: "shoes",
+    subCat: "mary-jane",
     gender: "ladies",
     genderLabel: "Ladies Footwear",
     image: "https://res.cloudinary.com/omvbgydr/image/upload/v1785012756/black_marry_jane_k2hs1s.png",
@@ -223,9 +253,10 @@ const products = [
     badge: "Kwa Bei Nafuu"
   },
   {
-    id: 'prod-mj-beige',
+    id: 'beige-mary-jane-wedge-heels',
     title: "Beige Mary Jane Low Wedge Heels",
     category: "shoes",
+    subCat: "mary-jane",
     gender: "ladies",
     genderLabel: "Ladies Footwear",
     image: "https://res.cloudinary.com/omvbgydr/image/upload/v1785012756/bej_marry_jane_wxdze9.png",
@@ -233,9 +264,10 @@ const products = [
     badge: "Kwa Bei Nafuu"
   },
   {
-    id: 'prod-mj-grey-1',
+    id: 'grey-mary-jane-wedge-heels',
     title: "Grey Mary Jane Wedge Heels",
     category: "shoes",
+    subCat: "mary-jane",
     gender: "ladies",
     genderLabel: "Ladies Footwear",
     image: "https://res.cloudinary.com/omvbgydr/image/upload/v1785012763/grey_marry_jane_rkbi8x.png",
@@ -243,9 +275,10 @@ const products = [
     badge: "Kwa Bei Nafuu"
   },
   {
-    id: 'prod-mj-grey-2',
+    id: 'grey-mary-jane-pumps-mb26',
     title: "Grey Mary Jane Pumps (MB26-25J)",
     category: "shoes",
+    subCat: "mary-jane",
     gender: "ladies",
     genderLabel: "Ladies Footwear",
     image: "https://res.cloudinary.com/omvbgydr/image/upload/v1785007996/grey_marry_jane_mxapol.png",
@@ -255,9 +288,10 @@ const products = [
 
   // Sneakers & Athletic Shoes
   {
-    id: 'prod-samba-1',
+    id: 'samba-classic-white-sneakers',
     title: "Samba Classic White Sneakers",
     category: "shoes",
+    subCat: "sneakers",
     gender: "both",
     genderLabel: "Sneaker Collection",
     image: "https://res.cloudinary.com/omvbgydr/image/upload/v1785012778/samba_sneakers_w7o66r.png",
@@ -265,9 +299,10 @@ const products = [
     badge: "Hot Seller"
   },
   {
-    id: 'prod-samba-2',
+    id: 'samba-leather-sneakers',
     title: "Samba Leather Sneakers",
     category: "shoes",
+    subCat: "sneakers",
     gender: "both",
     genderLabel: "Sneaker Collection",
     image: "https://res.cloudinary.com/omvbgydr/image/upload/v1785012777/samba_sneakers_hpp9uh.jpg",
@@ -275,9 +310,10 @@ const products = [
     badge: "Kwa Bei Nafuu"
   },
   {
-    id: 'prod-samba-adidas',
+    id: 'samba-retro-edition-sneakers',
     title: "Samba Retro Edition Sneakers",
     category: "shoes",
+    subCat: "sneakers",
     gender: "both",
     genderLabel: "Sneaker Collection",
     image: "https://res.cloudinary.com/omvbgydr/image/upload/v1785012776/samba_adidas_rhrfrn.jpg",
@@ -285,9 +321,10 @@ const products = [
     badge: "Kwa Bei Nafuu"
   },
   {
-    id: 'prod-sneakers-urban',
+    id: 'urban-streetwear-sneakers',
     title: "Urban Streetwear Sneakers",
     category: "shoes",
+    subCat: "sneakers",
     gender: "both",
     genderLabel: "Sneaker Collection",
     image: "https://res.cloudinary.com/omvbgydr/image/upload/v1785012778/sneakers2_doypsp.jpg",
@@ -295,9 +332,10 @@ const products = [
     badge: "Kwa Bei Nafuu"
   },
   {
-    id: 'prod-sport-shoe',
+    id: 'athletic-sport-shoes',
     title: "Athletic Sport Shoes",
     category: "shoes",
+    subCat: "sports",
     gender: "both",
     genderLabel: "Sport Footwear",
     image: "https://res.cloudinary.com/omvbgydr/image/upload/v1785012779/sport_shoe_bkzzm9.jpg",
@@ -305,9 +343,10 @@ const products = [
     badge: "Kwa Bei Nafuu"
   },
   {
-    id: 'prod-nike-1',
+    id: 'nike-style-athletic-sneakers',
     title: "Nike Style Athletic Sneakers",
     category: "shoes",
+    subCat: "sports",
     gender: "both",
     genderLabel: "Sport Footwear",
     image: "https://res.cloudinary.com/omvbgydr/image/upload/v1785012774/nikes_edp97b.jpg",
@@ -315,9 +354,10 @@ const products = [
     badge: "Kwa Bei Nafuu"
   },
   {
-    id: 'prod-nike-running',
+    id: 'nike-running-shoes',
     title: "Nike Running Shoes",
     category: "shoes",
+    subCat: "sports",
     gender: "both",
     genderLabel: "Sport Footwear",
     image: "https://res.cloudinary.com/omvbgydr/image/upload/v1785012774/nike_runningshoe_ljn4pj.png",
@@ -327,9 +367,10 @@ const products = [
 
   // Men's Leather Official Shoes, Loafers & Boots
   {
-    id: 'prod-leather-shoe',
+    id: 'kaisifeier-leather-dress-shoes',
     title: "Kaisifeier Men's Leather Dress Shoes",
     category: "shoes",
+    subCat: "loafers",
     gender: "mens",
     genderLabel: "Men Official Shoes",
     image: "https://res.cloudinary.com/omvbgydr/image/upload/v1785012772/leathershoe_fchd8h.jpg",
@@ -337,9 +378,10 @@ const products = [
     badge: "Executive"
   },
   {
-    id: 'prod-leather-loafers',
+    id: 'leather-loafers',
     title: "Men's Leather Loafers",
     category: "shoes",
+    subCat: "loafers",
     gender: "mens",
     genderLabel: "Men Footwear",
     image: "https://res.cloudinary.com/omvbgydr/image/upload/v1785012771/Leather_loafers_oep6r7.png",
@@ -347,9 +389,10 @@ const products = [
     badge: "Kwa Bei Nafuu"
   },
   {
-    id: 'prod-hiking-boots',
+    id: 'hiking-outdoor-boots',
     title: "Outdoor Hiking & Work Boots",
     category: "shoes",
+    subCat: "boots",
     gender: "mens",
     genderLabel: "Men Footwear",
     image: "https://res.cloudinary.com/omvbgydr/image/upload/v1785012764/hiking_boots_fondbk.png",
@@ -357,9 +400,10 @@ const products = [
     badge: "Durable"
   },
   {
-    id: 'prod-freedom-shoe',
+    id: 'freedom-comfort-shoes',
     title: "Freedom Comfort Shoes",
     category: "shoes",
+    subCat: "sports",
     gender: "both",
     genderLabel: "Casual Footwear",
     image: "https://res.cloudinary.com/omvbgydr/image/upload/v1785012761/freedom_oyhilp.jpg",
@@ -367,9 +411,10 @@ const products = [
     badge: "Kwa Bei Nafuu"
   },
   {
-    id: 'prod-footwear-coll',
+    id: 'casual-footwear-collection',
     title: "Casual Footwear Collection",
     category: "shoes",
+    subCat: "sports",
     gender: "both",
     genderLabel: "Casual Footwear",
     image: "https://res.cloudinary.com/omvbgydr/image/upload/v1785012761/footware_tjufch.jpg",
@@ -378,31 +423,61 @@ const products = [
   }
 ];
 
+// Optimize all image URLs for WebP & compression
+const products = rawProducts.map(p => ({
+  ...p,
+  image: optimizeCldUrl(p.image)
+}));
+
 // WhatsApp Phone Number
 const WHATSAPP_NUMBER = "254793788938";
 
-// --- State Variables ---
+// --- State Management ---
 let currentFilter = 'all';
 let currentSearch = '';
+let cart = loadCart();
+let activeModalProduct = null;
 
-// --- DOM Elements ---
+// --- Load Cart from LocalStorage ---
+function loadCart() {
+  try {
+    const saved = localStorage.getItem('gm_fashion_cart');
+    return saved ? JSON.parse(saved) : [];
+  } catch (e) {
+    return [];
+  }
+}
+
+function saveCart() {
+  try {
+    localStorage.setItem('gm_fashion_cart', JSON.stringify(cart));
+    updateCartUI();
+  } catch (e) {}
+}
+
+// --- DOM Initialization ---
 document.addEventListener('DOMContentLoaded', () => {
   renderProducts();
   setupEventListeners();
   updateFooterYear();
+  updateCartUI();
 });
 
-// --- 2. Render Products Grid ---
+// --- 3. Render Products Grid with Sorting & Filtering ---
 function renderProducts() {
   const grid = document.getElementById('products-grid');
   const emptyState = document.getElementById('empty-state');
+  const sortSelect = document.getElementById('catalog-sort');
   
   if (!grid) return;
 
-  // Filter products based on search & tab
-  const filtered = products.filter(item => {
+  const sortValue = sortSelect ? sortSelect.value : 'featured';
+
+  // Filter products
+  let filtered = products.filter(item => {
     const matchesFilter = (currentFilter === 'all') ||
                           (item.category === currentFilter) ||
+                          (item.subCat === currentFilter) ||
                           (currentFilter === 'mens' && (item.gender === 'mens' || item.gender === 'both')) ||
                           (currentFilter === 'ladies' && (item.gender === 'ladies' || item.gender === 'both'));
 
@@ -416,6 +491,15 @@ function renderProducts() {
     return matchesFilter && matchesSearch;
   });
 
+  // Apply Sorting
+  if (sortValue === 'name-asc') {
+    filtered.sort((a, b) => a.title.localeCompare(b.title));
+  } else if (sortValue === 'name-desc') {
+    filtered.sort((a, b) => b.title.localeCompare(a.title));
+  } else if (sortValue === 'cat') {
+    filtered.sort((a, b) => a.category.localeCompare(b.category));
+  }
+
   if (filtered.length === 0) {
     grid.innerHTML = '';
     emptyState.style.display = 'block';
@@ -426,26 +510,26 @@ function renderProducts() {
 
   grid.innerHTML = filtered.map(product => {
     const encodedMsg = encodeURIComponent(
-      `Hello Garissa and Moyale Fashion Ltd! I am interested in inquiring about "${product.title}" (${product.genderLabel}). Please let me know the wholesale/retail price and stock availability.`
+      `Hello Garissa and Moyale Fashion Ltd! I am interested in inquiring about "${product.title}" (${product.genderLabel}). Please let me know the wholesale/retail price and stock.`
     );
     const waLink = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodedMsg}`;
 
     return `
-      <div class="product-card">
-        <div class="product-img-wrap">
-          <img src="${product.image}" alt="${product.title}" loading="lazy" onerror="this.onerror=null; this.src='https://res.cloudinary.com/omvbgydr/image/upload/v1785012781/varsity_mont_dos6ks.png'">
+      <div class="product-card" id="card-${product.id}">
+        <div class="product-img-wrap" onclick="openProductModal('${product.id}')" title="Click to view details">
+          <img src="${product.image}" alt="${product.title}" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='https://res.cloudinary.com/omvbgydr/image/upload/f_auto,q_auto/v1785012781/varsity_mont_dos6ks.png'">
           <span class="product-badge-slogan"><i class="fa-solid fa-tag"></i> ${product.badge}</span>
           <span class="product-price-badge">Wholesale & Retail</span>
         </div>
         <div class="product-info">
           <span class="product-cat-name">${product.category.toUpperCase()} &bull; ${product.genderLabel}</span>
-          <h3 class="product-title">${product.title}</h3>
+          <h3 class="product-title" onclick="openProductModal('${product.id}')">${product.title}</h3>
           <p class="product-desc">${product.description}</p>
           <div class="product-actions">
-            <button class="btn btn-sm btn-primary" onclick="openProductModal('${product.id}')" style="flex:1;">
-              <i class="fa-solid fa-eye"></i> View Details
+            <button class="btn btn-sm btn-primary" onclick="addToCart('${product.id}')" style="flex:1;">
+              <i class="fa-solid fa-cart-plus"></i> Add to Cart
             </button>
-            <a href="${waLink}" target="_blank" class="btn btn-sm btn-whatsapp" title="Inquire on WhatsApp">
+            <a href="${waLink}" target="_blank" class="btn btn-sm btn-whatsapp" title="Inquire on WhatsApp" aria-label="Inquire about ${product.title} on WhatsApp">
               <i class="fa-brands fa-whatsapp"></i> Inquire
             </a>
           </div>
@@ -455,7 +539,7 @@ function renderProducts() {
   }).join('');
 }
 
-// --- 3. Event Listeners Setup ---
+// --- 4. Event Listeners Setup ---
 function setupEventListeners() {
   // Mobile Nav Drawer Toggle
   const mobileToggle = document.getElementById('mobile-toggle');
@@ -489,7 +573,7 @@ function setupEventListeners() {
   });
 }
 
-// --- 4. Search Filter Handler ---
+// --- 5. Search Filter Handler ---
 function filterProducts() {
   const searchInput = document.getElementById('gallery-search');
   const clearBtn = document.getElementById('clear-search');
@@ -516,7 +600,6 @@ function clearSearch() {
 }
 
 function filterGalleryCategory(category) {
-  // Switch to target filter tab
   const tabs = document.querySelectorAll('#filter-tabs .tab-btn');
   tabs.forEach(t => {
     if (t.getAttribute('data-filter') === category) {
@@ -529,7 +612,6 @@ function filterGalleryCategory(category) {
   currentFilter = category;
   renderProducts();
 
-  // Smooth scroll to products section
   const section = document.getElementById('products');
   if (section) {
     section.scrollIntoView({ behavior: 'smooth' });
@@ -541,10 +623,12 @@ function resetGallery() {
   filterGalleryCategory('all');
 }
 
-// --- 5. Modal Handler ---
+// --- 6. Interactive Modal Handler ---
 function openProductModal(productId) {
   const product = products.find(p => p.id === productId);
   if (!product) return;
+
+  activeModalProduct = product;
 
   const modal = document.getElementById('product-modal');
   const modalImg = document.getElementById('modal-img');
@@ -554,16 +638,14 @@ function openProductModal(productId) {
   const modalDesc = document.getElementById('modal-desc');
   const modalWaBtn = document.getElementById('modal-wa-btn');
 
-  if (modalImg) {
-    modalImg.src = product.image;
-  }
+  if (modalImg) modalImg.src = product.image;
   if (modalTitle) modalTitle.textContent = product.title;
   if (modalCat) modalCat.textContent = product.category.toUpperCase();
   if (modalGender) modalGender.textContent = `${product.genderLabel} • Wholesale & Retail`;
   if (modalDesc) modalDesc.textContent = product.description;
 
   const encodedMsg = encodeURIComponent(
-    `Hello Garissa and Moyale Fashion Ltd! I am interested in "${product.title}" (${product.genderLabel}). Please send me the wholesale/retail price and stock availability at your shop.`
+    `Hello Garissa and Moyale Fashion Ltd! I am interested in "${product.title}" (${product.genderLabel}). Please send me the wholesale/retail price and stock availability.`
   );
   if (modalWaBtn) {
     modalWaBtn.href = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodedMsg}`;
@@ -577,6 +659,14 @@ function closeProductModal(event) {
   if (modal) modal.classList.remove('active');
 }
 
+function addCurrentModalToCart() {
+  if (activeModalProduct) {
+    addToCart(activeModalProduct.id);
+    closeProductModal();
+    toggleCartDrawer();
+  }
+}
+
 // Close modal with ESC key
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') {
@@ -584,7 +674,110 @@ document.addEventListener('keydown', (e) => {
   }
 });
 
-// --- 6. Quick Form to WhatsApp ---
+// --- 7. Cart Drawer Management ---
+function addToCart(productId) {
+  const product = products.find(p => p.id === productId);
+  if (!product) return;
+
+  const existing = cart.find(item => item.id === productId);
+  if (existing) {
+    existing.qty += 1;
+  } else {
+    cart.push({ id: product.id, title: product.title, image: product.image, qty: 1 });
+  }
+
+  saveCart();
+}
+
+function removeFromCart(productId) {
+  cart = cart.filter(item => item.id !== productId);
+  saveCart();
+}
+
+function updateCartQty(productId, delta) {
+  const item = cart.find(i => i.id === productId);
+  if (item) {
+    item.qty += delta;
+    if (item.qty <= 0) {
+      removeFromCart(productId);
+    } else {
+      saveCart();
+    }
+  }
+}
+
+function clearCart() {
+  cart = [];
+  saveCart();
+}
+
+function toggleCartDrawer() {
+  const overlay = document.getElementById('cart-drawer-overlay');
+  if (overlay) {
+    overlay.classList.toggle('active');
+  }
+}
+
+function updateCartUI() {
+  const badge = document.getElementById('cart-badge');
+  const mobileBadge = document.getElementById('mobile-cart-count');
+  const drawerCount = document.getElementById('cart-drawer-count');
+  const drawerTotalQty = document.getElementById('cart-total-qty');
+  const drawerItems = document.getElementById('cart-drawer-items');
+
+  const totalCount = cart.reduce((sum, item) => sum + item.qty, 0);
+
+  if (badge) badge.textContent = totalCount;
+  if (mobileBadge) mobileBadge.textContent = totalCount;
+  if (drawerCount) drawerCount.textContent = totalCount;
+  if (drawerTotalQty) drawerTotalQty.textContent = `${totalCount} item${totalCount === 1 ? '' : 's'}`;
+
+  if (!drawerItems) return;
+
+  if (cart.length === 0) {
+    drawerItems.innerHTML = `
+      <div class="cart-empty">
+        <i class="fa-solid fa-basket-shopping"></i>
+        <p>Your shopping cart is empty.</p>
+        <button class="btn btn-sm btn-primary" onclick="toggleCartDrawer()"><i class="fa-solid fa-store"></i> Browse Products</button>
+      </div>
+    `;
+    return;
+  }
+
+  drawerItems.innerHTML = cart.map(item => `
+    <div class="cart-item">
+      <img src="${item.image}" alt="${item.title}" class="cart-item-img" loading="lazy" decoding="async">
+      <div class="cart-item-info">
+        <h4>${item.title}</h4>
+        <div class="cart-item-controls">
+          <button onclick="updateCartQty('${item.id}', -1)" aria-label="Decrease quantity"><i class="fa-solid fa-minus"></i></button>
+          <span>${item.qty}</span>
+          <button onclick="updateCartQty('${item.id}', 1)" aria-label="Increase quantity"><i class="fa-solid fa-plus"></i></button>
+          <button class="cart-item-remove" onclick="removeFromCart('${item.id}')" aria-label="Remove item"><i class="fa-solid fa-trash"></i></button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function checkoutCartWhatsApp() {
+  if (cart.length === 0) {
+    alert("Your cart is empty. Please add items to your cart first.");
+    return;
+  }
+
+  let text = "Hello Garissa and Moyale Fashion Ltd!\nI would like to place an order for the following items:\n\n";
+  cart.forEach((item, index) => {
+    text += `${index + 1}. ${item.title} (Quantity: ${item.qty})\n`;
+  });
+  text += "\nPlease provide me with price confirmation and payment/delivery details.";
+
+  const waUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`;
+  window.open(waUrl, '_blank');
+}
+
+// --- 8. Quick Form to WhatsApp ---
 function sendFormToWhatsApp(e) {
   e.preventDefault();
   
@@ -599,7 +792,7 @@ function sendFormToWhatsApp(e) {
   window.open(waUrl, '_blank');
 }
 
-// --- 7. Update Footer Year ---
+// --- 9. Update Footer Year ---
 function updateFooterYear() {
   const yearEl = document.getElementById('current-year');
   if (yearEl) {

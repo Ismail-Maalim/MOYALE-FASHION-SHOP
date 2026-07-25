@@ -23,6 +23,32 @@
   
   <!-- CSS Stylesheet -->
   <link rel="stylesheet" href="styles.css">
+
+  <!-- JSON-LD SEO Structured Data for Google Search Indexing -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ClothingStore",
+    "name": "Garissa and Moyale Fashion Ltd",
+    "image": "https://res.cloudinary.com/omvbgydr/image/upload/f_auto,q_auto/v1785012781/varsity_mont_dos6ks.png",
+    "description": "Garissa and Moyale Fashion Ltd is a trusted fashion retailer and wholesaler offering quality clothes, footwear, bags, mattresses, and household items in Nandi Hills Town and across Kenya.",
+    "telephone": "+254793788938",
+    "priceRange": "KSh 500 - KSh 10000",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Opposite Migingo/KCB",
+      "addressLocality": "Nandi Hills Town",
+      "addressRegion": "Nandi County",
+      "addressCountry": "KE"
+    },
+    "openingHoursSpecification": {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+      "opens": "08:00",
+      "closes": "21:00"
+    }
+  }
+  </script>
 </head>
 <body>
 
@@ -40,7 +66,7 @@
   <!-- Navigation Bar -->
   <header class="site-header">
     <div class="container header-container">
-      <a href="#" class="brand-logo">
+      <a href="#" class="brand-logo" aria-label="Garissa and Moyale Fashion Ltd Home">
         <div class="brand-icon">
           <i class="fa-solid fa-bag-shopping"></i>
         </div>
@@ -51,7 +77,7 @@
       </a>
 
       <!-- Desktop Nav Menu -->
-      <nav class="nav-menu" id="nav-menu">
+      <nav class="nav-menu" id="nav-menu" aria-label="Main Navigation">
         <a href="#hero" class="nav-link active"><i class="fa-solid fa-house"></i> Home</a>
         <a href="#categories" class="nav-link"><i class="fa-solid fa-layer-group"></i> Categories</a>
         <a href="#products" class="nav-link"><i class="fa-solid fa-shirt"></i> Catalog</a>
@@ -59,11 +85,15 @@
         <a href="#contact" class="nav-link"><i class="fa-solid fa-location-dot"></i> Contact Us</a>
       </nav>
 
-      <!-- Header Action Buttons -->
+      <!-- Header Action Buttons & Cart Toggle -->
       <div class="header-actions">
+        <button class="btn btn-cart-toggle" id="cart-toggle-btn" onclick="toggleCartDrawer()" aria-label="View Shopping Cart">
+          <i class="fa-solid fa-cart-shopping"></i>
+          <span class="cart-count-badge" id="cart-badge">0</span>
+        </button>
         <a href="tel:0793788938" class="btn btn-call"><i class="fa-solid fa-phone"></i> <span>0793788938</span></a>
         <a href="https://wa.me/254793788938?text=Hello%20Garissa%20and%20Moyale%20Fashion%20Ltd%2C%20I%20saw%20your%20website%20and%20would%20like%20to%20make%20an%20inquiry." target="_blank" class="btn btn-whatsapp"><i class="fa-brands fa-whatsapp"></i> <span>WhatsApp</span></a>
-        <button class="mobile-toggle" id="mobile-toggle" aria-label="Toggle menu">
+        <button class="mobile-toggle" id="mobile-toggle" aria-label="Toggle Navigation Menu">
           <i class="fa-solid fa-bars"></i>
         </button>
       </div>
@@ -121,7 +151,7 @@
 
       <div class="hero-image-wrapper">
         <div class="hero-image-card">
-          <img src="https://res.cloudinary.com/omvbgydr/image/upload/v1785012781/varsity_mont_dos6ks.png" alt="Garissa and Moyale Fashion Ltd Display" class="hero-img" id="hero-img">
+          <img src="https://res.cloudinary.com/omvbgydr/image/upload/f_auto,q_auto/v1785012781/varsity_mont_dos6ks.png" alt="Garissa and Moyale Fashion Ltd Varsity Jacket Display" class="hero-img" id="hero-img" loading="lazy" decoding="async">
           <div class="hero-floating-badge badge-top">
             <i class="fa-solid fa-circle-check"></i> Retail & Wholesale
           </div>
@@ -146,7 +176,7 @@
         <!-- Category 1: Clothing -->
         <div class="category-card" onclick="filterGalleryCategory('clothes')">
           <div class="category-img-container">
-            <img src="https://res.cloudinary.com/omvbgydr/image/upload/v1785012781/varsity_mont_dos6ks.png" alt="Men's & Ladies Clothing">
+            <img src="https://res.cloudinary.com/omvbgydr/image/upload/f_auto,q_auto/v1785012781/varsity_mont_dos6ks.png" alt="Men and Ladies Clothing Collection" loading="lazy" decoding="async">
             <div class="category-overlay"></div>
             <span class="category-pill"><i class="fa-solid fa-shirt"></i> Clothing</span>
           </div>
@@ -163,7 +193,7 @@
         <!-- Category 2: Shoes & Sandals -->
         <div class="category-card" onclick="filterGalleryCategory('shoes')">
           <div class="category-img-container">
-            <img src="https://res.cloudinary.com/omvbgydr/image/upload/v1785012778/samba_sneakers_w7o66r.png" alt="Shoes & Footwear">
+            <img src="https://res.cloudinary.com/omvbgydr/image/upload/f_auto,q_auto/v1785012778/samba_sneakers_w7o66r.png" alt="Shoes and Footwear Collection" loading="lazy" decoding="async">
             <div class="category-overlay"></div>
             <span class="category-pill"><i class="fa-solid fa-shoe-prints"></i> Shoes & Footwear</span>
           </div>
@@ -180,7 +210,7 @@
         <!-- Category 3: Accessories & Home -->
         <div class="category-card" onclick="filterGalleryCategory('bags')">
           <div class="category-img-container">
-            <img src="https://res.cloudinary.com/omvbgydr/image/upload/v1785012771/Leather_loafers_oep6r7.png" alt="Bags & Accessories">
+            <img src="https://res.cloudinary.com/omvbgydr/image/upload/f_auto,q_auto/v1785012771/Leather_loafers_oep6r7.png" alt="Bags, Belts and Accessories" loading="lazy" decoding="async">
             <div class="category-overlay"></div>
             <span class="category-pill"><i class="fa-solid fa-bag-shopping"></i> Bags & Accessories</span>
           </div>
@@ -203,25 +233,39 @@
       <div class="section-header">
         <span class="section-subtitle"><i class="fa-solid fa-store"></i> Live Stock Catalog</span>
         <h2 class="section-title">Explore Our Full Inventory</h2>
-        <p class="section-desc">Browse through our latest uploaded products. Click any item to inquire or place a wholesale/retail order directly on WhatsApp!</p>
+        <p class="section-desc">Browse through our latest uploaded products. Filter by category, sort by price/title, or add items to your cart for instant WhatsApp checkout!</p>
       </div>
 
-      <!-- Controls: Search Bar + Category Tabs -->
+      <!-- Controls: Search Bar + Filter Tabs + Sort Dropdown -->
       <div class="gallery-controls">
-        <!-- Search Input -->
-        <div class="search-box">
-          <i class="fa-solid fa-magnifying-glass search-icon"></i>
-          <input type="text" id="gallery-search" placeholder="Search jackets, Mary Jane heels, Samba sneakers, jeans, boots..." onkeyup="filterProducts()">
-          <button class="clear-search" id="clear-search" onclick="clearSearch()" aria-label="Clear search"><i class="fa-solid fa-xmark"></i></button>
+        <div class="search-and-sort-row">
+          <!-- Search Input -->
+          <div class="search-box">
+            <i class="fa-solid fa-magnifying-glass search-icon"></i>
+            <input type="text" id="gallery-search" placeholder="Search jackets, Mary Jane heels, Samba sneakers, jeans, boots..." onkeyup="filterProducts()" aria-label="Search catalog items">
+            <button class="clear-search" id="clear-search" onclick="clearSearch()" aria-label="Clear search"><i class="fa-solid fa-xmark"></i></button>
+          </div>
+
+          <!-- Sort Selector -->
+          <div class="sort-selector">
+            <label for="catalog-sort"><i class="fa-solid fa-arrow-down-wide-short"></i> Sort:</label>
+            <select id="catalog-sort" onchange="filterProducts()" aria-label="Sort products">
+              <option value="featured">Featured / Default</option>
+              <option value="name-asc">Name (A to Z)</option>
+              <option value="name-desc">Name (Z to A)</option>
+              <option value="cat">By Category</option>
+            </select>
+          </div>
         </div>
 
         <!-- Filter Tabs -->
-        <div class="filter-tabs" id="filter-tabs">
-          <button class="tab-btn active" data-filter="all"><i class="fa-solid fa-border-all"></i> All Items</button>
-          <button class="tab-btn" data-filter="clothes"><i class="fa-solid fa-shirt"></i> Clothes & Jackets</button>
-          <button class="tab-btn" data-filter="shoes"><i class="fa-solid fa-shoe-prints"></i> Shoes & Sneakers</button>
-          <button class="tab-btn" data-filter="ladies"><i class="fa-solid fa-venus"></i> Women's Wear</button>
-          <button class="tab-btn" data-filter="mens"><i class="fa-solid fa-mars"></i> Men's Wear</button>
+        <div class="filter-tabs" id="filter-tabs" role="tablist">
+          <button class="tab-btn active" data-filter="all" role="tab"><i class="fa-solid fa-border-all"></i> All Items</button>
+          <button class="tab-btn" data-filter="clothes" role="tab"><i class="fa-solid fa-shirt"></i> Clothes & Jackets</button>
+          <button class="tab-btn" data-filter="shoes" role="tab"><i class="fa-solid fa-shoe-prints"></i> Shoes & Sneakers</button>
+          <button class="tab-btn" data-filter="mary-jane" role="tab"><i class="fa-solid fa-shoe-prints"></i> Mary Jane Heels</button>
+          <button class="tab-btn" data-filter="ladies" role="tab"><i class="fa-solid fa-venus"></i> Women's Wear</button>
+          <button class="tab-btn" data-filter="mens" role="tab"><i class="fa-solid fa-mars"></i> Men's Wear</button>
         </div>
       </div>
 
@@ -419,13 +463,13 @@
     </div>
   </section>
 
-  <!-- Product Detail Quick Modal -->
-  <div class="modal-overlay" id="product-modal" onclick="closeProductModal(event)">
+  <!-- Interactive Product Detail Modal -->
+  <div class="modal-overlay" id="product-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" onclick="closeProductModal(event)">
     <div class="modal-content" onclick="event.stopPropagation()">
-      <button class="modal-close" onclick="closeProductModal()"><i class="fa-solid fa-xmark"></i></button>
+      <button class="modal-close" onclick="closeProductModal()" aria-label="Close Product View"><i class="fa-solid fa-xmark"></i></button>
       <div class="modal-grid">
         <div class="modal-image-col">
-          <img src="" id="modal-img" alt="Product View">
+          <img src="" id="modal-img" alt="Product Image Preview" loading="lazy" decoding="async">
         </div>
         <div class="modal-info-col">
           <span class="modal-category" id="modal-category">Category</span>
@@ -436,21 +480,63 @@
           </div>
           <p class="modal-description" id="modal-desc">Detailed item description goes here...</p>
 
+          <!-- Interactive Size & Color Selection -->
+          <div class="modal-selectors">
+            <div class="modal-sel-group">
+              <label><i class="fa-solid fa-ruler-combined"></i> Select Size:</label>
+              <div class="size-options-row" id="modal-size-row">
+                <span class="size-btn active">Standard</span>
+                <span class="size-btn">38</span>
+                <span class="size-btn">39</span>
+                <span class="size-btn">40</span>
+                <span class="size-btn">41</span>
+                <span class="size-btn">42</span>
+              </div>
+            </div>
+          </div>
+
           <div class="modal-features">
-            <div class="m-feat"><i class="fa-solid fa-circle-check"></i> High Quality & Durable</div>
+            <div class="m-feat"><i class="fa-solid fa-circle-check"></i> High Quality & Durable Material</div>
             <div class="m-feat"><i class="fa-solid fa-store"></i> Available Wholesale & Retail</div>
             <div class="m-feat"><i class="fa-solid fa-truck-fast"></i> Countrywide Delivery Across Kenya</div>
           </div>
 
           <div class="modal-actions">
+            <button id="modal-add-cart-btn" class="btn btn-primary btn-lg btn-block" onclick="addCurrentModalToCart()">
+              <i class="fa-solid fa-cart-plus"></i> Add to Shopping Cart
+            </button>
             <a href="#" id="modal-wa-btn" target="_blank" class="btn btn-whatsapp btn-lg btn-block">
               <i class="fa-brands fa-whatsapp"></i> Inquire / Order on WhatsApp
             </a>
-            <a href="tel:0793788938" class="btn btn-call btn-block">
-              <i class="fa-solid fa-phone"></i> Call 0793788938
-            </a>
           </div>
         </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Persistent Interactive Shopping Cart Drawer -->
+  <div class="cart-drawer-overlay" id="cart-drawer-overlay" onclick="toggleCartDrawer()">
+    <div class="cart-drawer" onclick="event.stopPropagation()">
+      <div class="cart-drawer-header">
+        <h3><i class="fa-solid fa-cart-shopping"></i> Your Cart (<span id="cart-drawer-count">0</span>)</h3>
+        <button class="cart-close-btn" onclick="toggleCartDrawer()"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+
+      <div class="cart-drawer-body" id="cart-drawer-items">
+        <!-- Cart Items populated via JS -->
+      </div>
+
+      <div class="cart-drawer-footer">
+        <div class="cart-summary-line">
+          <span>Total Items:</span>
+          <strong id="cart-total-qty">0 items</strong>
+        </div>
+        <button class="btn btn-whatsapp btn-block btn-lg" onclick="checkoutCartWhatsApp()">
+          <i class="fa-brands fa-whatsapp"></i> Checkout via WhatsApp (0793788938)
+        </button>
+        <button class="btn btn-outline-clear btn-block" onclick="clearCart()">
+          <i class="fa-solid fa-trash-can"></i> Clear Cart
+        </button>
       </div>
     </div>
   </div>
@@ -459,7 +545,7 @@
   <footer class="site-footer">
     <div class="container footer-container">
       <div class="footer-brand">
-        <a href="#" class="brand-logo footer-logo">
+        <a href="#" class="brand-logo footer-logo" aria-label="Garissa and Moyale Fashion Ltd">
           <div class="brand-icon"><i class="fa-solid fa-bag-shopping"></i></div>
           <div class="brand-text">
             <span class="brand-name">GARISSA & MOYALE <span class="highlight">FASHION LTD</span></span>
@@ -499,7 +585,7 @@
   </footer>
 
   <!-- Android & Smartphone Sticky Bottom Navigation Bar -->
-  <nav class="android-bottom-bar" aria-label="Mobile Quick Bar">
+  <nav class="android-bottom-bar" aria-label="Mobile Navigation Bar">
     <a href="tel:0793788938" class="bottom-bar-item">
       <i class="fa-solid fa-phone"></i>
       <span>Call</span>
@@ -512,10 +598,10 @@
       <i class="fa-solid fa-store"></i>
       <span>Catalog</span>
     </a>
-    <a href="#contact" class="bottom-bar-item">
-      <i class="fa-solid fa-location-dot"></i>
-      <span>Location</span>
-    </a>
+    <button onclick="toggleCartDrawer()" class="bottom-bar-item">
+      <i class="fa-solid fa-cart-shopping"></i>
+      <span>Cart (<span id="mobile-cart-count">0</span>)</span>
+    </button>
   </nav>
 
   <!-- Floating Sticky Action Buttons -->
