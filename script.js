@@ -7,83 +7,107 @@
 // --- 1. Product Data Store ---
 const products = [
   {
-    id: 'prod-1',
+    id: 'prod-jackets',
+    title: "Men's Casual Zip-Up Jackets",
+    category: "clothes",
+    gender: "mens",
+    genderLabel: "Men Collection",
+    price: "KSh 950",
+    priceVal: 950,
+    image: "assets/jackets_950.png",
+    fallbackImage: "assets/hero_banner.jpg",
+    description: "Lightweight zip-up casual jackets available in Khaki, Olive Green, Navy Blue, and Dark Navy. High-quality fabric for daily wear.",
+    badge: "Kwa Bei Nafuu"
+  },
+  {
+    id: 'prod-suit-shoe',
+    title: "Men's Official Suit Slip-On Shoes (KS-P2035)",
+    category: "shoes",
+    gender: "mens",
+    genderLabel: "Men Official Shoes",
+    price: "KSh 1,600",
+    priceVal: 1600,
+    image: "assets/suit_shoe_1600.png",
+    fallbackImage: "assets/mens_suit_1.jpg",
+    description: "Premium Kaisifeier black leather slip-on dress shoes for formal suits, office meetings, and weddings. High shine & durable sole.",
+    badge: "Kwa Bei Nafuu"
+  },
+  {
+    id: 'prod-winter-jackets',
+    title: "Men's Hooded Heavy Puffer Winter Jackets",
+    category: "clothes",
+    gender: "mens",
+    genderLabel: "Men Collection",
+    price: "KSh 1,350",
+    priceVal: 1350,
+    image: "assets/winter_jackets_1350.png",
+    fallbackImage: "assets/hero_banner.jpg",
+    description: "Heavy insulated winter puffer jackets with hood in Tan/Khaki, Dark Grey, and Black. Reversible design. Available sizes: XL, 2XL, 3XL, 4XL.",
+    badge: "Kwa Bei Nafuu"
+  },
+  {
+    id: 'prod-sweaters',
+    title: "Fleece-Lined Denim Sweater Jackets",
+    category: "clothes",
+    gender: "both",
+    genderLabel: "Men & Ladies Wear",
+    price: "KSh 1,100",
+    priceVal: 1100,
+    image: "assets/sweaters_1100.png",
+    fallbackImage: "assets/ladies_dress_1.jpg",
+    description: "Warm fleece-lined denim sweater jackets with soft white shearling collar. Available in Black, Royal Blue, and Acid-Wash Grey.",
+    badge: "Kwa Bei Nafuu"
+  },
+  {
+    id: 'prod-womens-shoes',
+    title: "Women's Low-Wedge Strap Heels (MB26-25J)",
+    category: "shoes",
+    gender: "ladies",
+    genderLabel: "Ladies Footwear",
+    price: "KSh 1,100",
+    priceVal: 1100,
+    image: "assets/womens_shoes_1100.png",
+    fallbackImage: "assets/ladies_heels_1.jpg",
+    description: "Elegant women's low-wedge pump shoes with double adjustable ankle straps and gold side embroidery. Colors: Black, White, Khaki, and Dark Grey.",
+    badge: "Kwa Bei Nafuu"
+  },
+  {
+    id: 'prod-ladies-dress',
     title: "Ladies Floral Office & Event Dress",
     category: "clothes",
     gender: "ladies",
     genderLabel: "Ladies Collection",
+    price: "KSh 1,450",
+    priceVal: 1450,
     image: "assets/ladies_dress_1.jpg",
+    fallbackImage: "assets/ladies_dress.jpg",
     description: "Elegant royal purple & blue floral dress for ladies. High-quality tailored fabric suitable for official wear, church, and special events.",
     badge: "Kwa Bei Nafuu"
   },
   {
-    id: 'prod-2',
+    id: 'prod-mens-suit',
     title: "Men's Executive 3-Piece Navy Suit",
     category: "clothes",
     gender: "mens",
     genderLabel: "Men Collection",
+    price: "KSh 4,500",
+    priceVal: 4500,
     image: "assets/mens_suit_1.jpg",
+    fallbackImage: "assets/mens_suit.jpg",
     description: "Sharp men's formal 3-piece suit crafted for weddings, business meetings, and special occasions. Perfect fit with matching vest.",
     badge: "Kwa Bei Nafuu"
   },
   {
-    id: 'prod-3',
-    title: "Ladies Black Heel Sandals & Pumps",
-    category: "shoes",
-    gender: "ladies",
-    genderLabel: "Ladies Collection",
-    image: "assets/ladies_heels_1.jpg",
-    description: "Stylish ankle-strap heel sandals and pumps. Comfortable cushioned sole designed for all-day comfort and elegance.",
-    badge: "Kwa Bei Nafuu"
-  },
-  {
-    id: 'prod-4',
-    title: "Men's Royal Blue & White Sneakers",
-    category: "shoes",
-    gender: "mens",
-    genderLabel: "Men Collection",
-    image: "assets/mens_sneakers_1.jpg",
-    description: "Trendy men's athletic sneakers, classic leather loafers, and durable daily wear footwear in all standard sizes.",
-    badge: "Kwa Bei Nafuu"
-  },
-  {
-    id: 'prod-5',
+    id: 'prod-ladies-handbag',
     title: "Ladies Designer Leather Handbag",
     category: "bags",
     gender: "ladies",
     genderLabel: "Ladies Accessories",
+    price: "KSh 1,200",
+    priceVal: 1200,
     image: "assets/ladies_handbag_1.jpg",
-    description: "Spacious designer ladies handbag with premium gold hardware and shoulder strap.",
-    badge: "Kwa Bei Nafuu"
-  },
-  {
-    id: 'prod-6',
-    title: "Men's Leather Belts & Sandals Set",
-    category: "bags",
-    gender: "mens",
-    genderLabel: "Men Accessories",
-    image: "assets/mens_belts_sandals.jpg",
-    description: "Genuine men's dark leather belts with shiny buckles and comfortable leather casual sandals.",
-    badge: "Kwa Bei Nafuu"
-  },
-  {
-    id: 'prod-7',
-    title: "Ladies Ankle Boots & Wedge Sandals",
-    category: "shoes",
-    gender: "ladies",
-    genderLabel: "Ladies Collection",
-    image: "assets/ladies_shoes.jpg",
-    description: "Chic black glossy ankle boots and wedge sandals for ladies. Premium quality & durable sole.",
-    badge: "Kwa Bei Nafuu"
-  },
-  {
-    id: 'prod-8',
-    title: "Men's Casual Shirts & Trousers",
-    category: "clothes",
-    gender: "mens",
-    genderLabel: "Men Collection",
-    image: "assets/hero_banner.jpg",
-    description: "Clean gents official and casual trousers, button-down shirts, and polo t-shirts in various colors.",
+    fallbackImage: "assets/bags_belts.jpg",
+    description: "Spacious designer ladies handbag with premium gold hardware and adjustable shoulder strap.",
     badge: "Kwa Bei Nafuu"
   }
 ];
@@ -121,6 +145,7 @@ function renderProducts() {
                           item.title.toLowerCase().includes(query) || 
                           item.description.toLowerCase().includes(query) ||
                           item.category.toLowerCase().includes(query) ||
+                          item.price.toLowerCase().includes(query) ||
                           item.genderLabel.toLowerCase().includes(query);
 
     return matchesFilter && matchesSearch;
@@ -136,24 +161,28 @@ function renderProducts() {
 
   grid.innerHTML = filtered.map(product => {
     const encodedMsg = encodeURIComponent(
-      `Hello Moyale Fashion Shop! I am interested in inquiring about "${product.title}" (${product.genderLabel}). Please let me know the price and available sizes.`
+      `Hello Moyale Fashion Shop! I am interested in inquiring about "${product.title}" (${product.price} each, ${product.genderLabel}). Please let me know the available sizes and stock.`
     );
     const waLink = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodedMsg}`;
 
     return `
       <div class="product-card">
         <div class="product-img-wrap">
-          <img src="${product.image}" alt="${product.title}" loading="lazy" onerror="this.src='assets/hero_banner.jpg'">
+          <img src="${product.image}" alt="${product.title}" loading="lazy" onerror="this.onerror=null; this.src='${product.fallbackImage}'">
           <span class="product-badge-slogan"><i class="fa-solid fa-tag"></i> ${product.badge}</span>
-          <span class="product-gender-badge">${product.genderLabel}</span>
+          <span class="product-price-badge">${product.price} <small>each</small></span>
         </div>
         <div class="product-info">
-          <span class="product-cat-name">${product.category.toUpperCase()}</span>
+          <span class="product-cat-name">${product.category.toUpperCase()} &bull; ${product.genderLabel}</span>
           <h3 class="product-title">${product.title}</h3>
+          <div class="product-price-row">
+            <span class="price-tag">${product.price}</span>
+            <span class="price-unit">each</span>
+          </div>
           <p class="product-desc">${product.description}</p>
           <div class="product-actions">
             <button class="btn btn-sm btn-primary" onclick="openProductModal('${product.id}')" style="flex:1;">
-              <i class="fa-solid fa-eye"></i> Quick View
+              <i class="fa-solid fa-eye"></i> View Details
             </button>
             <a href="${waLink}" target="_blank" class="btn btn-sm btn-whatsapp" title="Inquire on WhatsApp">
               <i class="fa-brands fa-whatsapp"></i> Inquire
@@ -264,14 +293,17 @@ function openProductModal(productId) {
   const modalDesc = document.getElementById('modal-desc');
   const modalWaBtn = document.getElementById('modal-wa-btn');
 
-  if (modalImg) modalImg.src = product.image;
-  if (modalTitle) modalTitle.textContent = product.title;
+  if (modalImg) {
+    modalImg.src = product.image;
+    modalImg.onerror = function() { this.src = product.fallbackImage; };
+  }
+  if (modalTitle) modalTitle.textContent = `${product.title} - ${product.price} each`;
   if (modalCat) modalCat.textContent = product.category.toUpperCase();
-  if (modalGender) modalGender.textContent = product.genderLabel;
+  if (modalGender) modalGender.textContent = `${product.genderLabel} • ${product.price} each`;
   if (modalDesc) modalDesc.textContent = product.description;
 
   const encodedMsg = encodeURIComponent(
-    `Hello Moyale Fashion Shop! I am interested in "${product.title}" (${product.genderLabel}). Please let me know the price and available sizes at your shop in Nandi Hills Town.`
+    `Hello Moyale Fashion Shop! I am interested in "${product.title}" priced at ${product.price} each. Please let me know available sizes and colors at your shop in Nandi Hills Town.`
   );
   if (modalWaBtn) {
     modalWaBtn.href = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodedMsg}`;
