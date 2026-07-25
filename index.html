@@ -7,6 +7,15 @@
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  
+  <!-- Content Security Policy (CSP) for XSS & E-Skimming Protection -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; img-src 'self' data: https://res.cloudinary.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; connect-src 'self' https://wa.me https://api.whatsapp.com;">
+  
+  <!-- Security Headers for Anti-Clickjacking & MIME Protection -->
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <meta http-equiv="X-Frame-Options" content="DENY">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+
   <title>Garissa and Moyale Fashion Ltd | Wholesale & Retail Fashion Kenya</title>
   <meta name="description" content="Garissa and Moyale Fashion Ltd - Trusted fashion retailer & wholesaler in Nandi Hills Town & across Kenya. Quality clothes, shoes, bags, mattresses & fashion accessories at competitive wholesale & retail prices. Open 8am - 9pm daily. Call/WhatsApp 0793788938.">
   
@@ -58,7 +67,7 @@
       <span class="announcement-badge"><i class="fa-solid fa-store"></i> Wholesale & Retail</span>
       <p class="announcement-text"><i class="fa-solid fa-clock"></i> Open 8:00 AM - 9:00 PM Daily &bull; Opposite Migingo/KCB, Nandi Hills Town &bull; Call/WhatsApp: <a href="tel:0793788938" class="announcement-link"><i class="fa-solid fa-phone"></i> 0793788938</a></p>
       <div class="announcement-social">
-        <a href="https://wa.me/254793788938?text=Hello%20Garissa%20and%20Moyale%20Fashion%20Ltd%2C%20I%20want%20to%20inquire%20about%20your%20products." target="_blank" aria-label="WhatsApp Us" class="top-wa-btn"><i class="fa-brands fa-whatsapp"></i> Chat Now</a>
+        <a href="https://wa.me/254793788938?text=Hello%20Garissa%20and%20Moyale%20Fashion%20Ltd%2C%20I%20want%20to%20inquire%20about%20your%20products." target="_blank" rel="noopener noreferrer" aria-label="WhatsApp Us" class="top-wa-btn"><i class="fa-brands fa-whatsapp"></i> Chat Now</a>
       </div>
     </div>
   </div>
@@ -92,7 +101,7 @@
           <span class="cart-count-badge" id="cart-badge">0</span>
         </button>
         <a href="tel:0793788938" class="btn btn-call"><i class="fa-solid fa-phone"></i> <span>0793788938</span></a>
-        <a href="https://wa.me/254793788938?text=Hello%20Garissa%20and%20Moyale%20Fashion%20Ltd%2C%20I%20saw%20your%20website%20and%20would%20like%20to%20make%20an%20inquiry." target="_blank" class="btn btn-whatsapp"><i class="fa-brands fa-whatsapp"></i> <span>WhatsApp</span></a>
+        <a href="https://wa.me/254793788938?text=Hello%20Garissa%20and%20Moyale%20Fashion%20Ltd%2C%20I%20saw%20your%20website%20and%20would%20like%20to%20make%20an%20inquiry." target="_blank" rel="noopener noreferrer" class="btn btn-whatsapp"><i class="fa-brands fa-whatsapp"></i> <span>WhatsApp</span></a>
         <button class="mobile-toggle" id="mobile-toggle" aria-label="Toggle Navigation Menu">
           <i class="fa-solid fa-bars"></i>
         </button>
@@ -124,7 +133,7 @@
         </div>
 
         <div class="hero-cta-buttons">
-          <a href="https://wa.me/254793788938?text=Hello%20Garissa%20and%20Moyale%20Fashion%20Ltd%2C%20I%20would%20like%20to%20inquire%20about%20wholesale/retail%20products." target="_blank" class="btn btn-hero-wa btn-lg">
+          <a href="https://wa.me/254793788938?text=Hello%20Garissa%20and%20Moyale%20Fashion%20Ltd%2C%20I%20would%20like%20to%20inquire%20about%20wholesale/retail%20products." target="_blank" rel="noopener noreferrer" class="btn btn-hero-wa btn-lg">
             <i class="fa-brands fa-whatsapp"></i> WhatsApp Order (0793788938)
           </a>
           <a href="#products" class="btn btn-hero-outline btn-lg">
@@ -291,7 +300,7 @@
             <p>Buying for a boutique, business, school, or resale? Contact us for special wholesale price quotes and fast countrywide delivery!</p>
           </div>
         </div>
-        <a href="https://wa.me/254793788938?text=Hello%20Garissa%20and%20Moyale%20Fashion%20Ltd%2C%20I%20want%20to%20inquire%20about%20Wholesale%20bulk%20orders." target="_blank" class="btn btn-whatsapp btn-lg">
+        <a href="https://wa.me/254793788938?text=Hello%20Garissa%20and%20Moyale%20Fashion%20Ltd%2C%20I%20want%20to%20inquire%20about%20Wholesale%20bulk%20orders." target="_blank" rel="noopener noreferrer" class="btn btn-whatsapp btn-lg">
           <i class="fa-brands fa-whatsapp"></i> Inquire Wholesale Prices
         </a>
       </div>
@@ -389,7 +398,7 @@
               <p>Call or WhatsApp for retail purchases, wholesale orders, and price quotes.</p>
               <div class="contact-card-actions">
                 <a href="tel:0793788938" class="btn btn-sm btn-call"><i class="fa-solid fa-phone"></i> Call 0793788938</a>
-                <a href="https://wa.me/254793788938?text=Hello%20Garissa%20and%20Moyale%20Fashion%20Ltd%2C%20I%20am%20contacting%20you%20from%20your%20website." target="_blank" class="btn btn-sm btn-whatsapp"><i class="fa-brands fa-whatsapp"></i> WhatsApp Us</a>
+                <a href="https://wa.me/254793788938?text=Hello%20Garissa%20and%20Moyale%20Fashion%20Ltd%2C%20I%20am%20contacting%20you%20from%20your%20website." target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-whatsapp"><i class="fa-brands fa-whatsapp"></i> WhatsApp Us</a>
               </div>
             </div>
           </div>
@@ -426,7 +435,7 @@
             <form id="whatsapp-quick-form" onsubmit="sendFormToWhatsApp(event)">
               <div class="form-group">
                 <label for="form-name">Your Name</label>
-                <input type="text" id="form-name" placeholder="e.g. Jane / John" required>
+                <input type="text" id="form-name" placeholder="e.g. Jane / John" maxlength="100" required>
               </div>
 
               <div class="form-group">
@@ -450,7 +459,7 @@
 
               <div class="form-group">
                 <label for="form-message">Message or Order Quantity</label>
-                <textarea id="form-message" rows="4" placeholder="e.g. Hello! I want to order 5 pairs of Samba sneakers and varsity jackets." required></textarea>
+                <textarea id="form-message" rows="4" placeholder="e.g. Hello! I want to order 5 pairs of Samba sneakers and varsity jackets." maxlength="1000" required></textarea>
               </div>
 
               <button type="submit" class="btn btn-whatsapp btn-block btn-lg">
@@ -480,7 +489,7 @@
           </div>
           <p class="modal-description" id="modal-desc">Detailed item description goes here...</p>
 
-          <!-- Interactive Size & Color Selection -->
+          <!-- Interactive Size Selection -->
           <div class="modal-selectors">
             <div class="modal-sel-group">
               <label><i class="fa-solid fa-ruler-combined"></i> Select Size:</label>
@@ -505,7 +514,7 @@
             <button id="modal-add-cart-btn" class="btn btn-primary btn-lg btn-block" onclick="addCurrentModalToCart()">
               <i class="fa-solid fa-cart-plus"></i> Add to Shopping Cart
             </button>
-            <a href="#" id="modal-wa-btn" target="_blank" class="btn btn-whatsapp btn-lg btn-block">
+            <a href="#" id="modal-wa-btn" target="_blank" rel="noopener noreferrer" class="btn btn-whatsapp btn-lg btn-block">
               <i class="fa-brands fa-whatsapp"></i> Inquire / Order on WhatsApp
             </a>
           </div>
@@ -573,7 +582,7 @@
         <p><i class="fa-solid fa-location-dot"></i> Opposite Migingo/KCB, Nandi Hills Town</p>
         <p><i class="fa-solid fa-clock"></i> Open 8:00 AM - 9:00 PM Daily</p>
         <p><i class="fa-solid fa-phone"></i> <a href="tel:0793788938">0793788938</a></p>
-        <p><i class="fa-brands fa-whatsapp"></i> <a href="https://wa.me/254793788938" target="_blank">0793788938 (WhatsApp)</a></p>
+        <p><i class="fa-brands fa-whatsapp"></i> <a href="https://wa.me/254793788938" target="_blank" rel="noopener noreferrer">0793788938 (WhatsApp)</a></p>
       </div>
     </div>
 
@@ -590,7 +599,7 @@
       <i class="fa-solid fa-phone"></i>
       <span>Call</span>
     </a>
-    <a href="https://wa.me/254793788938?text=Hello%20Garissa%20and%20Moyale%20Fashion%20Ltd%2C%20I%20want%20to%20inquire%20about%20your%20products." target="_blank" class="bottom-bar-item bottom-bar-wa">
+    <a href="https://wa.me/254793788938?text=Hello%20Garissa%20and%20Moyale%20Fashion%20Ltd%2C%20I%20want%20to%20inquire%20about%20your%20products." target="_blank" rel="noopener noreferrer" class="bottom-bar-item bottom-bar-wa">
       <i class="fa-brands fa-whatsapp"></i>
       <span>WhatsApp</span>
     </a>
@@ -606,7 +615,7 @@
 
   <!-- Floating Sticky Action Buttons -->
   <div class="floating-actions">
-    <a href="https://wa.me/254793788938?text=Hello%20Garissa%20and%20Moyale%20Fashion%20Ltd%2C%20I%20am%20on%20your%20website%20and%20want%20to%20inquire%20about%20your%20products." target="_blank" class="floating-btn float-wa" aria-label="Chat on WhatsApp">
+    <a href="https://wa.me/254793788938?text=Hello%20Garissa%20and%20Moyale%20Fashion%20Ltd%2C%20I%20am%20on%20your%20website%20and%20want%20to%20inquire%20about%20your%20products." target="_blank" rel="noopener noreferrer" class="floating-btn float-wa" aria-label="Chat on WhatsApp">
       <i class="fa-brands fa-whatsapp"></i>
       <span class="float-tooltip">Chat on WhatsApp</span>
     </a>

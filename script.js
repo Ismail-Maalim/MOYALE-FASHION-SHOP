@@ -1,11 +1,23 @@
 /* ==========================================================================
-   Garissa and Moyale Fashion Ltd - Enhanced E-Commerce Engine
-   Features: Fast WebP CDN Delivery, Sorting, Cart Drawer, LocalStorage & WhatsApp Checkout
+   Garissa and Moyale Fashion Ltd - Secure E-Commerce Engine
+   Features: Input Sanitization (XSS Prevention), Rate Limiting, CSP Support, WebP CDN, Cart & WhatsApp Checkout
    Location: Opposite Migingo/KCB, Nandi Hills Town, Kenya
    WhatsApp & Phone: 0793788938
    ========================================================================== */
 
-// --- 1. Cloudinary Asset Optimization Helper (WebP & Dynamic Quality) ---
+// --- 1. Security Utilities (XSS Prevention & HTML Sanitization) ---
+function sanitizeHTML(str) {
+  if (typeof str !== 'string') return '';
+  return str
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#x27;')
+    .replace(/\//g, '&#x2F;');
+}
+
+// --- 2. Cloudinary Asset Optimization Helper (WebP & Dynamic Quality) ---
 function optimizeCldUrl(url) {
   if (!url || typeof url !== 'string') return url;
   if (url.includes('cloudinary.com') && !url.includes('/f_auto,q_auto/')) {
@@ -14,7 +26,7 @@ function optimizeCldUrl(url) {
   return url;
 }
 
-// --- 2. Clean Kebab-Case Product Data Store ---
+// --- 3. Clean Kebab-Case Product Data Store ---
 const rawProducts = [
   // Outerwear & Jackets
   {
@@ -437,12 +449,17 @@ let currentFilter = 'all';
 let currentSearch = '';
 let cart = loadCart();
 let activeModalProduct = null;
+let lastSubmissionTime = 0; // Anti-Automation Throttle
 
-// --- Load Cart from LocalStorage ---
+// --- Secure LocalStorage Cart Loader ---
 function loadCart() {
   try {
     const saved = localStorage.getItem('gm_fashion_cart');
-    return saved ? JSON.parse(saved) : [];
+    if (!saved) return [];
+    const parsed = JSON.parse(saved);
+    if (!Array.isArray(parsed)) return [];
+    // Validate object structure against tampering
+    return parsed.filter(item => item && typeof item.id === 'string' && typeof item.qty === 'number' && item.qty > 0);
   } catch (e) {
     return [];
   }
@@ -463,7 +480,7 @@ document.addEventListener('DOMContentLoaded', () => {
   updateCartUI();
 });
 
-// --- 3. Render Products Grid with Sorting & Filtering ---
+// --- 4. Render Products Grid with Sorting & Filtering ---
 function renderProducts() {
   const grid = document.getElementById('products-grid');
   const emptyState = document.getElementById('empty-state');
@@ -509,6 +526,12 @@ function renderProducts() {
   emptyState.style.display = 'none';
 
   grid.innerHTML = filtered.map(product => {
+    const safeTitle = sanitizeHTML(product.title);
+    const safeBadge = sanitizeHTML(product.badge);
+    const safeCat = sanitizeHTML(product.category.toUpperCase());
+    const safeGenderLabel = sanitizeHTML(product.genderLabel);
+    const safeDesc = sanitizeHTML(product.description);
+
     const encodedMsg = encodeURIComponent(
       `Hello Garissa and Moyale Fashion Ltd! I am interested in inquiring about "${product.title}" (${product.genderLabel}). Please let me know the wholesale/retail price and stock.`
     );
@@ -517,19 +540,19 @@ function renderProducts() {
     return `
       <div class="product-card" id="card-${product.id}">
         <div class="product-img-wrap" onclick="openProductModal('${product.id}')" title="Click to view details">
-          <img src="${product.image}" alt="${product.title}" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='https://res.cloudinary.com/omvbgydr/image/upload/f_auto,q_auto/v1785012781/varsity_mont_dos6ks.png'">
-          <span class="product-badge-slogan"><i class="fa-solid fa-tag"></i> ${product.badge}</span>
+          <img src="${product.image}" alt="${safeTitle}" loading="lazy" decoding="async" onerror="this.onerror=null; this.src='https://res.cloudinary.com/omvbgydr/image/upload/f_auto,q_auto/v1785012781/varsity_mont_dos6ks.png'">
+          <span class="product-badge-slogan"><i class="fa-solid fa-tag"></i> ${safeBadge}</span>
           <span class="product-price-badge">Wholesale & Retail</span>
         </div>
         <div class="product-info">
-          <span class="product-cat-name">${product.category.toUpperCase()} &bull; ${product.genderLabel}</span>
-          <h3 class="product-title" onclick="openProductModal('${product.id}')">${product.title}</h3>
-          <p class="product-desc">${product.description}</p>
+          <span class="product-cat-name">${safeCat} &bull; ${safeGenderLabel}</span>
+          <h3 class="product-title" onclick="openProductModal('${product.id}')">${safeTitle}</h3>
+          <p class="product-desc">${safeDesc}</p>
           <div class="product-actions">
             <button class="btn btn-sm btn-primary" onclick="addToCart('${product.id}')" style="flex:1;">
               <i class="fa-solid fa-cart-plus"></i> Add to Cart
             </button>
-            <a href="${waLink}" target="_blank" class="btn btn-sm btn-whatsapp" title="Inquire on WhatsApp" aria-label="Inquire about ${product.title} on WhatsApp">
+            <a href="${waLink}" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-whatsapp" title="Inquire on WhatsApp" aria-label="Inquire about ${safeTitle} on WhatsApp">
               <i class="fa-brands fa-whatsapp"></i> Inquire
             </a>
           </div>
@@ -539,9 +562,8 @@ function renderProducts() {
   }).join('');
 }
 
-// --- 4. Event Listeners Setup ---
+// --- 5. Event Listeners Setup ---
 function setupEventListeners() {
-  // Mobile Nav Drawer Toggle
   const mobileToggle = document.getElementById('mobile-toggle');
   const navMenu = document.getElementById('nav-menu');
 
@@ -552,7 +574,6 @@ function setupEventListeners() {
       mobileToggle.innerHTML = isOpen ? '<i class="fa-solid fa-xmark"></i>' : '<i class="fa-solid fa-bars"></i>';
     });
 
-    // Close menu when clicking nav links
     navMenu.querySelectorAll('a').forEach(link => {
       link.addEventListener('click', () => {
         navMenu.classList.remove('mobile-open');
@@ -561,7 +582,6 @@ function setupEventListeners() {
     });
   }
 
-  // Filter Tabs
   const tabs = document.querySelectorAll('#filter-tabs .tab-btn');
   tabs.forEach(tab => {
     tab.addEventListener('click', () => {
@@ -573,13 +593,13 @@ function setupEventListeners() {
   });
 }
 
-// --- 5. Search Filter Handler ---
+// --- 6. Search Filter Handler ---
 function filterProducts() {
   const searchInput = document.getElementById('gallery-search');
   const clearBtn = document.getElementById('clear-search');
   
   if (searchInput) {
-    currentSearch = searchInput.value;
+    currentSearch = sanitizeHTML(searchInput.value);
     if (clearBtn) {
       clearBtn.style.display = currentSearch ? 'block' : 'none';
     }
@@ -623,7 +643,7 @@ function resetGallery() {
   filterGalleryCategory('all');
 }
 
-// --- 6. Interactive Modal Handler ---
+// --- 7. Interactive Modal Handler ---
 function openProductModal(productId) {
   const product = products.find(p => p.id === productId);
   if (!product) return;
@@ -667,14 +687,13 @@ function addCurrentModalToCart() {
   }
 }
 
-// Close modal with ESC key
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') {
     closeProductModal();
   }
 });
 
-// --- 7. Cart Drawer Management ---
+// --- 8. Cart Drawer Management ---
 function addToCart(productId) {
   const product = products.find(p => p.id === productId);
   if (!product) return;
@@ -745,20 +764,23 @@ function updateCartUI() {
     return;
   }
 
-  drawerItems.innerHTML = cart.map(item => `
-    <div class="cart-item">
-      <img src="${item.image}" alt="${item.title}" class="cart-item-img" loading="lazy" decoding="async">
-      <div class="cart-item-info">
-        <h4>${item.title}</h4>
-        <div class="cart-item-controls">
-          <button onclick="updateCartQty('${item.id}', -1)" aria-label="Decrease quantity"><i class="fa-solid fa-minus"></i></button>
-          <span>${item.qty}</span>
-          <button onclick="updateCartQty('${item.id}', 1)" aria-label="Increase quantity"><i class="fa-solid fa-plus"></i></button>
-          <button class="cart-item-remove" onclick="removeFromCart('${item.id}')" aria-label="Remove item"><i class="fa-solid fa-trash"></i></button>
+  drawerItems.innerHTML = cart.map(item => {
+    const safeItemTitle = sanitizeHTML(item.title);
+    return `
+      <div class="cart-item">
+        <img src="${item.image}" alt="${safeItemTitle}" class="cart-item-img" loading="lazy" decoding="async">
+        <div class="cart-item-info">
+          <h4>${safeItemTitle}</h4>
+          <div class="cart-item-controls">
+            <button onclick="updateCartQty('${item.id}', -1)" aria-label="Decrease quantity"><i class="fa-solid fa-minus"></i></button>
+            <span>${item.qty}</span>
+            <button onclick="updateCartQty('${item.id}', 1)" aria-label="Increase quantity"><i class="fa-solid fa-plus"></i></button>
+            <button class="cart-item-remove" onclick="removeFromCart('${item.id}')" aria-label="Remove item"><i class="fa-solid fa-trash"></i></button>
+          </div>
         </div>
       </div>
-    </div>
-  `).join('');
+    `;
+  }).join('');
 }
 
 function checkoutCartWhatsApp() {
@@ -774,25 +796,38 @@ function checkoutCartWhatsApp() {
   text += "\nPlease provide me with price confirmation and payment/delivery details.";
 
   const waUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`;
-  window.open(waUrl, '_blank');
+  window.open(waUrl, '_blank', 'noopener,noreferrer');
 }
 
-// --- 8. Quick Form to WhatsApp ---
+// --- 9. Quick Form to WhatsApp with Rate Limiting & Input Sanitization ---
 function sendFormToWhatsApp(e) {
   e.preventDefault();
+
+  // Anti-Automation Rate Limiting (Throttle 3 seconds between clicks)
+  const now = Date.now();
+  if (now - lastSubmissionTime < 3000) {
+    alert("Please wait a moment before submitting another inquiry.");
+    return;
+  }
+  lastSubmissionTime = now;
   
-  const name = document.getElementById('form-name')?.value || 'Customer';
-  const orderType = document.getElementById('form-order-type')?.value || 'Retail/Wholesale';
-  const itemType = document.getElementById('form-item-type')?.value || 'Fashion Item';
-  const userMsg = document.getElementById('form-message')?.value || '';
+  const rawName = document.getElementById('form-name')?.value || 'Customer';
+  const rawOrderType = document.getElementById('form-order-type')?.value || 'Retail/Wholesale';
+  const rawItemType = document.getElementById('form-item-type')?.value || 'Fashion Item';
+  const rawUserMsg = document.getElementById('form-message')?.value || '';
+
+  const name = sanitizeHTML(rawName.trim());
+  const orderType = sanitizeHTML(rawOrderType.trim());
+  const itemType = sanitizeHTML(rawItemType.trim());
+  const userMsg = sanitizeHTML(rawUserMsg.trim());
 
   const fullMsg = `Hello Garissa and Moyale Fashion Ltd!\nMy name is ${name}.\nOrder Type: ${orderType}\nProduct Category: ${itemType}\nDetails: ${userMsg}\n(Sent from your website)`;
   
   const waUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(fullMsg)}`;
-  window.open(waUrl, '_blank');
+  window.open(waUrl, '_blank', 'noopener,noreferrer');
 }
 
-// --- 9. Update Footer Year ---
+// --- 10. Update Footer Year ---
 function updateFooterYear() {
   const yearEl = document.getElementById('current-year');
   if (yearEl) {
