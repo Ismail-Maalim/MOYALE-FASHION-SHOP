@@ -12,8 +12,8 @@ const products = [
     category: "clothes",
     gender: "ladies",
     genderLabel: "Ladies Collection",
-    image: "assets/ladies_dress.jpg",
-    description: "Elegant royal purple & floral patterned dress for ladies. High-quality fabric suitable for official wear, church, and special events.",
+    image: "assets/ladies_dress_1.jpg",
+    description: "Elegant royal purple & blue floral dress for ladies. High-quality tailored fabric suitable for official wear, church, and special events.",
     badge: "Kwa Bei Nafuu"
   },
   {
@@ -22,8 +22,8 @@ const products = [
     category: "clothes",
     gender: "mens",
     genderLabel: "Men Collection",
-    image: "assets/mens_suit.jpg",
-    description: "Sharp men's formal suit crafted for weddings, business meetings, and special occasions. Perfect fit with matching vest.",
+    image: "assets/mens_suit_1.jpg",
+    description: "Sharp men's formal 3-piece suit crafted for weddings, business meetings, and special occasions. Perfect fit with matching vest.",
     badge: "Kwa Bei Nafuu"
   },
   {
@@ -32,33 +32,43 @@ const products = [
     category: "shoes",
     gender: "ladies",
     genderLabel: "Ladies Collection",
-    image: "assets/ladies_shoes.jpg",
+    image: "assets/ladies_heels_1.jpg",
     description: "Stylish ankle-strap heel sandals and pumps. Comfortable cushioned sole designed for all-day comfort and elegance.",
     badge: "Kwa Bei Nafuu"
   },
   {
     id: 'prod-4',
-    title: "Men's Casual Sneakers & Loafers",
+    title: "Men's Royal Blue & White Sneakers",
     category: "shoes",
     gender: "mens",
     genderLabel: "Men Collection",
-    image: "assets/mens_footwear.jpg",
-    description: "Trendy men's sneakers, classic leather loafers, and durable daily wear sandals in all standard sizes.",
+    image: "assets/mens_sneakers_1.jpg",
+    description: "Trendy men's athletic sneakers, classic leather loafers, and durable daily wear footwear in all standard sizes.",
     badge: "Kwa Bei Nafuu"
   },
   {
     id: 'prod-5',
-    title: "Ladies Handbag & Leather Belts Set",
+    title: "Ladies Designer Leather Handbag",
     category: "bags",
-    gender: "both",
-    genderLabel: "Men & Ladies Accessories",
-    image: "assets/bags_belts.jpg",
-    description: "Spacious designer ladies handbag and genuine men's leather belts with durable metal buckles.",
+    gender: "ladies",
+    genderLabel: "Ladies Accessories",
+    image: "assets/ladies_handbag_1.jpg",
+    description: "Spacious designer ladies handbag with premium gold hardware and shoulder strap.",
     badge: "Kwa Bei Nafuu"
   },
   {
     id: 'prod-6',
-    title: "Ladies Ankle Boot & Heel Footwear",
+    title: "Men's Leather Belts & Sandals Set",
+    category: "bags",
+    gender: "mens",
+    genderLabel: "Men Accessories",
+    image: "assets/mens_belts_sandals.jpg",
+    description: "Genuine men's dark leather belts with shiny buckles and comfortable leather casual sandals.",
+    badge: "Kwa Bei Nafuu"
+  },
+  {
+    id: 'prod-7',
+    title: "Ladies Ankle Boots & Wedge Sandals",
     category: "shoes",
     gender: "ladies",
     genderLabel: "Ladies Collection",
@@ -67,23 +77,13 @@ const products = [
     badge: "Kwa Bei Nafuu"
   },
   {
-    id: 'prod-7',
+    id: 'prod-8',
     title: "Men's Casual Shirts & Trousers",
     category: "clothes",
     gender: "mens",
     genderLabel: "Men Collection",
     image: "assets/hero_banner.jpg",
     description: "Clean gents official and casual trousers, button-down shirts, and polo t-shirts in various colors.",
-    badge: "Kwa Bei Nafuu"
-  },
-  {
-    id: 'prod-8',
-    title: "Travel & Daily Backpacks",
-    category: "bags",
-    gender: "both",
-    genderLabel: "Unisex Wear",
-    image: "assets/bags_belts.jpg",
-    description: "Multi-compartment durable backpacks and side bags for daily business, travel, and school.",
     badge: "Kwa Bei Nafuu"
   }
 ];
@@ -143,7 +143,7 @@ function renderProducts() {
     return `
       <div class="product-card">
         <div class="product-img-wrap">
-          <img src="${product.image}" alt="${product.title}" loading="lazy">
+          <img src="${product.image}" alt="${product.title}" loading="lazy" onerror="this.src='assets/hero_banner.jpg'">
           <span class="product-badge-slogan"><i class="fa-solid fa-tag"></i> ${product.badge}</span>
           <span class="product-gender-badge">${product.genderLabel}</span>
         </div>
