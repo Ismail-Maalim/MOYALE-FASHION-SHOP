@@ -109,7 +109,7 @@
     </div>
   </header>
 
-  <!-- Hero Section -->
+  <!-- Hero Section with Dynamic Rotating Hero Slider -->
   <section class="hero-section" id="hero">
     <div class="container hero-container">
       <div class="hero-content">
@@ -158,14 +158,21 @@
         </div>
       </div>
 
+      <!-- Dynamic Rotating Carousel Hero Display -->
       <div class="hero-image-wrapper">
-        <div class="hero-image-card">
-          <img src="https://res.cloudinary.com/omvbgydr/image/upload/f_auto,q_auto/v1785012781/varsity_mont_dos6ks.png" alt="Garissa and Moyale Fashion Ltd Varsity Jacket Display" class="hero-img" id="hero-img" loading="lazy" decoding="async">
-          <div class="hero-floating-badge badge-top">
-            <i class="fa-solid fa-circle-check"></i> Retail & Wholesale
+        <div class="hero-image-card" id="hero-slider-card">
+          <img src="https://res.cloudinary.com/omvbgydr/image/upload/f_auto,q_auto/v1785012781/varsity_mont_dos6ks.png" alt="Garissa and Moyale Fashion Ltd Display" class="hero-img" id="hero-img" loading="lazy" decoding="async">
+          
+          <div class="hero-floating-badge badge-top" id="hero-slide-badge">
+            <i class="fa-solid fa-circle-check"></i> <span id="hero-slide-title">Varsity Bomber Jacket</span>
           </div>
           <div class="hero-floating-badge badge-bottom">
             <i class="fa-solid fa-hand-holding-dollar"></i> Kwa Bei Nafuu Rates
+          </div>
+
+          <!-- Carousel Controls / Dot Indicators -->
+          <div class="hero-slider-dots" id="hero-slider-dots" aria-label="Hero Image Navigation">
+            <!-- Dynamic Dots via JS -->
           </div>
         </div>
       </div>

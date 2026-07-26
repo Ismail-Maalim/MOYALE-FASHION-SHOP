@@ -1,6 +1,6 @@
 /* ==========================================================================
-   Garissa and Moyale Fashion Ltd - Ultra Mobile & Performance CSS
-   Features: Aspect Ratio Locking, Cart Drawer UI, Sort Selector & WebP Styling
+   Garissa and Moyale Fashion Ltd - Dynamic Hero Carousel & Performance CSS
+   Features: Hero Auto-Rotating Slider, Cross-Fade Transitions, Cart Drawer UI
    Location: Opposite Migingo/KCB, Nandi Hills Town, Kenya
    ========================================================================== */
 
@@ -418,6 +418,7 @@ ul { list-style: none; }
   color: #cbd5e1;
 }
 
+/* Dynamic Rotating Hero Carousel Card */
 .hero-image-card {
   position: relative;
   border-radius: var(--radius-lg);
@@ -425,12 +426,20 @@ ul { list-style: none; }
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
   border: 4px solid rgba(255, 255, 255, 0.2);
   aspect-ratio: 4 / 3;
+  background: #0f172a;
 }
 
 .hero-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transition: opacity 0.5s ease-in-out, transform 0.6s ease;
+  opacity: 1;
+}
+
+.hero-img.fade-out {
+  opacity: 0.1;
+  transform: scale(1.04);
 }
 
 .hero-floating-badge {
@@ -446,10 +455,44 @@ ul { list-style: none; }
   display: flex;
   align-items: center;
   gap: 0.4rem;
+  z-index: 5;
+  transition: var(--transition-fast);
 }
 
 .badge-top { top: 1rem; left: 1rem; }
 .badge-bottom { bottom: 1rem; right: 1rem; }
+
+/* Carousel Slider Dots Navigation */
+.hero-slider-dots {
+  position: absolute;
+  bottom: 0.75rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 0.5rem;
+  z-index: 10;
+  background: rgba(15, 23, 42, 0.65);
+  backdrop-filter: blur(6px);
+  padding: 0.35rem 0.75rem;
+  border-radius: var(--radius-full);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.dot-btn {
+  width: 0.65rem;
+  height: 0.65rem;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.4);
+  border: none;
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.dot-btn.active {
+  background: #fbbf24;
+  width: 1.5rem;
+  border-radius: var(--radius-full);
+}
 
 /* --- Categories Section --- */
 .categories-grid {
@@ -630,7 +673,6 @@ ul { list-style: none; }
   gap: 1.5rem;
 }
 
-/* Product Card Aspect-Ratio Lock & Presentation */
 .product-card {
   background: var(--neutral-white);
   border-radius: var(--radius-md);

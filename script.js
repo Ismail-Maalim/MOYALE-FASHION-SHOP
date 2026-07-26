@@ -1,6 +1,6 @@
 /* ==========================================================================
-   Garissa and Moyale Fashion Ltd - Secure E-Commerce Engine
-   Features: Input Sanitization (XSS Prevention), Rate Limiting, CSP Support, WebP CDN, Cart & WhatsApp Checkout
+   Garissa and Moyale Fashion Ltd - Secure & Dynamic E-Commerce Engine
+   Features: Hero Auto-Rotating Slider + Random Initial Selection, WebP CDN, Cart & Security
    Location: Opposite Migingo/KCB, Nandi Hills Town, Kenya
    WhatsApp & Phone: 0793788938
    ========================================================================== */
@@ -26,7 +26,36 @@ function optimizeCldUrl(url) {
   return url;
 }
 
-// --- 3. Clean Kebab-Case Product Data Store ---
+// --- 3. Featured Hero Carousel Items Array ---
+const heroFeaturedSlides = [
+  {
+    title: "Varsity Bomber Jacket",
+    tag: "Men & Unisex Outerwear",
+    image: optimizeCldUrl("https://res.cloudinary.com/omvbgydr/image/upload/v1785012781/varsity_mont_dos6ks.png")
+  },
+  {
+    title: "White Mary Jane Strap Heels",
+    tag: "Ladies Footwear Collection",
+    image: optimizeCldUrl("https://res.cloudinary.com/omvbgydr/image/upload/v1785012782/white_marry_jane_kkvxqs.png")
+  },
+  {
+    title: "Samba Classic White Sneakers",
+    tag: "Sneaker & Streetwear Collection",
+    image: optimizeCldUrl("https://res.cloudinary.com/omvbgydr/image/upload/v1785012778/samba_sneakers_w7o66r.png")
+  },
+  {
+    title: "Kaisifeier Leather Dress Shoes",
+    tag: "Executive Men Official Shoes",
+    image: optimizeCldUrl("https://res.cloudinary.com/omvbgydr/image/upload/v1785012772/leathershoe_fchd8h.jpg")
+  },
+  {
+    title: "Puffer Pillow Winter Jacket",
+    tag: "Heavy Winter Wear",
+    image: optimizeCldUrl("https://res.cloudinary.com/omvbgydr/image/upload/v1785012775/pillow_jacket_qyzlnw.png")
+  }
+];
+
+// --- 4. Clean Kebab-Case Product Data Store ---
 const rawProducts = [
   // Outerwear & Jackets
   {
@@ -451,6 +480,10 @@ let cart = loadCart();
 let activeModalProduct = null;
 let lastSubmissionTime = 0; // Anti-Automation Throttle
 
+// Hero Slider State (Random Initial Selection)
+let currentHeroIndex = Math.floor(Math.random() * heroFeaturedSlides.length);
+let heroSliderInterval = null;
+
 // --- Secure LocalStorage Cart Loader ---
 function loadCart() {
   try {
@@ -458,7 +491,6 @@ function loadCart() {
     if (!saved) return [];
     const parsed = JSON.parse(saved);
     if (!Array.isArray(parsed)) return [];
-    // Validate object structure against tampering
     return parsed.filter(item => item && typeof item.id === 'string' && typeof item.qty === 'number' && item.qty > 0);
   } catch (e) {
     return [];
@@ -478,9 +510,79 @@ document.addEventListener('DOMContentLoaded', () => {
   setupEventListeners();
   updateFooterYear();
   updateCartUI();
+  initHeroSlider();
 });
 
-// --- 4. Render Products Grid with Sorting & Filtering ---
+// --- 5. Hero Carousel Slider Implementation (Random Start + Auto-Rotate) ---
+function initHeroSlider() {
+  const dotsContainer = document.getElementById('hero-slider-dots');
+  const sliderCard = document.getElementById('hero-slider-card');
+
+  if (dotsContainer) {
+    dotsContainer.innerHTML = heroFeaturedSlides.map((slide, idx) => `
+      <button class="dot-btn ${idx === currentHeroIndex ? 'active' : ''}" onclick="goToHeroSlide(${idx})" aria-label="Slide ${idx + 1}: ${slide.title}"></button>
+    `).join('');
+  }
+
+  // Display initial random slide
+  setHeroSlide(currentHeroIndex);
+
+  // Auto-play interval (every 4.5 seconds)
+  startHeroSliderTimer();
+
+  // Pause on hover
+  if (sliderCard) {
+    sliderCard.addEventListener('mouseenter', () => clearInterval(heroSliderInterval));
+    sliderCard.addEventListener('mouseleave', startHeroSliderTimer);
+  }
+}
+
+function startHeroSliderTimer() {
+  clearInterval(heroSliderInterval);
+  heroSliderInterval = setInterval(() => {
+    currentHeroIndex = (currentHeroIndex + 1) % heroFeaturedSlides.length;
+    setHeroSlide(currentHeroIndex);
+  }, 4500);
+}
+
+function goToHeroSlide(index) {
+  currentHeroIndex = index;
+  setHeroSlide(currentHeroIndex);
+  startHeroSliderTimer();
+}
+
+function setHeroSlide(index) {
+  const imgEl = document.getElementById('hero-img');
+  const titleEl = document.getElementById('hero-slide-title');
+  const dotsContainer = document.getElementById('hero-slider-dots');
+  const slide = heroFeaturedSlides[index];
+
+  if (!slide || !imgEl) return;
+
+  // Cross-fade animation
+  imgEl.classList.add('fade-out');
+
+  setTimeout(() => {
+    imgEl.src = slide.image;
+    imgEl.alt = `${slide.title} - ${slide.tag}`;
+    if (titleEl) titleEl.textContent = slide.title;
+    imgEl.classList.remove('fade-out');
+  }, 250);
+
+  // Update dots UI
+  if (dotsContainer) {
+    const dots = dotsContainer.querySelectorAll('.dot-btn');
+    dots.forEach((dot, idx) => {
+      if (idx === index) {
+        dot.classList.add('active');
+      } else {
+        dot.classList.remove('active');
+      }
+    });
+  }
+}
+
+// --- 6. Render Products Grid with Sorting & Filtering ---
 function renderProducts() {
   const grid = document.getElementById('products-grid');
   const emptyState = document.getElementById('empty-state');
@@ -562,7 +664,7 @@ function renderProducts() {
   }).join('');
 }
 
-// --- 5. Event Listeners Setup ---
+// --- 7. Event Listeners Setup ---
 function setupEventListeners() {
   const mobileToggle = document.getElementById('mobile-toggle');
   const navMenu = document.getElementById('nav-menu');
@@ -593,7 +695,7 @@ function setupEventListeners() {
   });
 }
 
-// --- 6. Search Filter Handler ---
+// --- 8. Search Filter Handler ---
 function filterProducts() {
   const searchInput = document.getElementById('gallery-search');
   const clearBtn = document.getElementById('clear-search');
@@ -643,7 +745,7 @@ function resetGallery() {
   filterGalleryCategory('all');
 }
 
-// --- 7. Interactive Modal Handler ---
+// --- 9. Interactive Modal Handler ---
 function openProductModal(productId) {
   const product = products.find(p => p.id === productId);
   if (!product) return;
@@ -693,7 +795,7 @@ document.addEventListener('keydown', (e) => {
   }
 });
 
-// --- 8. Cart Drawer Management ---
+// --- 10. Cart Drawer Management ---
 function addToCart(productId) {
   const product = products.find(p => p.id === productId);
   if (!product) return;
@@ -799,11 +901,10 @@ function checkoutCartWhatsApp() {
   window.open(waUrl, '_blank', 'noopener,noreferrer');
 }
 
-// --- 9. Quick Form to WhatsApp with Rate Limiting & Input Sanitization ---
+// --- 11. Quick Form to WhatsApp with Rate Limiting & Input Sanitization ---
 function sendFormToWhatsApp(e) {
   e.preventDefault();
 
-  // Anti-Automation Rate Limiting (Throttle 3 seconds between clicks)
   const now = Date.now();
   if (now - lastSubmissionTime < 3000) {
     alert("Please wait a moment before submitting another inquiry.");
@@ -827,7 +928,7 @@ function sendFormToWhatsApp(e) {
   window.open(waUrl, '_blank', 'noopener,noreferrer');
 }
 
-// --- 10. Update Footer Year ---
+// --- 12. Update Footer Year ---
 function updateFooterYear() {
   const yearEl = document.getElementById('current-year');
   if (yearEl) {
