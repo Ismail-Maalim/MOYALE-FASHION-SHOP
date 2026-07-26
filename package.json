@@ -1,0 +1,28 @@
+{
+  "name": "moyale-fashion-shop",
+  "version": "2.0.0",
+  "description": "Garissa and Moyale Fashion Ltd - E-Commerce Platform with MongoDB Atlas Integration",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "seed": "node scripts/seed.js"
+  },
+  "keywords": [
+    "e-commerce",
+    "kenya",
+    "fashion",
+    "mongodb",
+    "mongoose",
+    "express"
+  ],
+  "author": "Garissa and Moyale Fashion Ltd",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "mongodb": "^6.8.0",
+    "mongoose": "^8.5.1"
+  }
+}
