@@ -1,6 +1,6 @@
 /* ==========================================================================
    Garissa and Moyale Fashion Ltd - Secure & Dynamic E-Commerce Engine
-   Features: Fasio AI Assistant Chatbot, Hero Auto-Rotating Slider, WebP CDN, Cart
+   Features: System OS Light & Dark Mode, Fasio AI Assistant, Hero Slider, WebP CDN, Cart Drawer
    Location: Opposite Migingo/KCB, Nandi Hills Town, Kenya
    WhatsApp & Phone: 0793788938
    ========================================================================== */
@@ -26,7 +26,58 @@ function optimizeCldUrl(url) {
   return url;
 }
 
-// --- 3. Featured Hero Carousel Items Array ---
+// --- 3. System Light & Dark Theme Management ---
+let currentTheme = 'light';
+
+function initTheme() {
+  const savedTheme = localStorage.getItem('gm_fashion_theme');
+  const systemPrefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+  if (savedTheme) {
+    currentTheme = savedTheme;
+  } else if (systemPrefersDark) {
+    currentTheme = 'dark';
+  } else {
+    currentTheme = 'light';
+  }
+
+  applyTheme(currentTheme);
+
+  // Listen for system theme changes dynamically
+  if (window.matchMedia) {
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+      if (!localStorage.getItem('gm_fashion_theme')) {
+        applyTheme(e.matches ? 'dark' : 'light');
+      }
+    });
+  }
+}
+
+function toggleTheme() {
+  currentTheme = (currentTheme === 'dark') ? 'light' : 'dark';
+  localStorage.setItem('gm_fashion_theme', currentTheme);
+  applyTheme(currentTheme);
+}
+
+function applyTheme(theme) {
+  currentTheme = theme;
+  document.documentElement.setAttribute('data-theme', theme);
+
+  const themeIcon = document.getElementById('theme-icon');
+  const themeToggleBtn = document.getElementById('theme-toggle-btn');
+
+  if (themeIcon) {
+    if (theme === 'dark') {
+      themeIcon.className = 'fa-solid fa-sun';
+      if (themeToggleBtn) themeToggleBtn.setAttribute('title', 'Switch to Light Theme');
+    } else {
+      themeIcon.className = 'fa-solid fa-moon';
+      if (themeToggleBtn) themeToggleBtn.setAttribute('title', 'Switch to Dark Theme');
+    }
+  }
+}
+
+// --- 4. Featured Hero Carousel Items Array ---
 const heroFeaturedSlides = [
   {
     title: "Varsity Bomber Jacket",
@@ -55,7 +106,7 @@ const heroFeaturedSlides = [
   }
 ];
 
-// --- 4. Clean Kebab-Case Product Data Store ---
+// --- 5. Clean Kebab-Case Product Data Store ---
 const rawProducts = [
   // Outerwear & Jackets
   {
@@ -506,6 +557,7 @@ function saveCart() {
 
 // --- DOM Initialization ---
 document.addEventListener('DOMContentLoaded', () => {
+  initTheme();
   renderProducts();
   setupEventListeners();
   updateFooterYear();
@@ -909,11 +961,9 @@ function sendFasioMessage(e) {
   const rawText = inputEl.value;
   if (!rawText.trim()) return;
 
-  // Add User Message
   appendFasioMsg(rawText, 'user');
   inputEl.value = '';
 
-  // Generate Fasio Smart Response
   setTimeout(() => {
     const reply = getFasioBotResponse(rawText);
     appendFasioMsg(reply, 'bot');

@@ -94,12 +94,19 @@
         <a href="#contact" class="nav-link"><i class="fa-solid fa-location-dot"></i> Contact Us</a>
       </nav>
 
-      <!-- Header Action Buttons & Cart Toggle -->
+      <!-- Header Action Buttons, Cart Toggle & Light/Dark Theme Switcher -->
       <div class="header-actions">
+        <!-- Theme Toggle Button -->
+        <button class="btn btn-theme-toggle" id="theme-toggle-btn" onclick="toggleTheme()" aria-label="Toggle Light and Dark Theme">
+          <i class="fa-solid fa-moon" id="theme-icon"></i>
+        </button>
+
+        <!-- Cart Toggle Button -->
         <button class="btn btn-cart-toggle" id="cart-toggle-btn" onclick="toggleCartDrawer()" aria-label="View Shopping Cart">
           <i class="fa-solid fa-cart-shopping"></i>
           <span class="cart-count-badge" id="cart-badge">0</span>
         </button>
+
         <a href="tel:0793788938" class="btn btn-call"><i class="fa-solid fa-phone"></i> <span>0793788938</span></a>
         <a href="https://wa.me/254793788938?text=Hello%20Garissa%20and%20Moyale%20Fashion%20Ltd%2C%20I%20saw%20your%20website%20and%20would%20like%20to%20make%20an%20inquiry." target="_blank" rel="noopener noreferrer" class="btn btn-whatsapp"><i class="fa-brands fa-whatsapp"></i> <span>WhatsApp</span></a>
         <button class="mobile-toggle" id="mobile-toggle" aria-label="Toggle Navigation Menu">
