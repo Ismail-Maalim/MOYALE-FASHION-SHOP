@@ -1,6 +1,6 @@
 /* ==========================================================================
-   Garissa and Moyale Fashion Ltd - Dynamic Hero Carousel & Performance CSS
-   Features: Hero Auto-Rotating Slider, Cross-Fade Transitions, Cart Drawer UI
+   Garissa and Moyale Fashion Ltd - Dynamic Hero, Cart & FASIO AI Bot CSS
+   Features: Fasio AI Assistant Chatbot, Hero Carousel Slider, Cart Drawer UI
    Location: Opposite Migingo/KCB, Nandi Hills Town, Kenya
    ========================================================================== */
 
@@ -924,42 +924,256 @@ ul { list-style: none; }
   color: var(--neutral-heading);
 }
 
-/* --- Size Selector in Modal --- */
-.modal-selectors {
-  margin-bottom: 1rem;
-  padding: 0.85rem;
-  background: var(--neutral-light);
-  border-radius: var(--radius-md);
+/* --- FASIO AI CUSTOMER ASSISTANT CHATBOT STYLING --- */
+.fasio-widget-wrapper {
+  position: fixed;
+  bottom: 1.25rem;
+  left: 1.25rem;
+  z-index: 2500;
 }
 
-.modal-sel-group label {
-  display: block;
-  font-size: 0.85rem;
-  font-weight: 700;
-  color: var(--neutral-heading);
-  margin-bottom: 0.4rem;
-}
-
-.size-options-row {
+.fasio-trigger-btn {
+  background: linear-gradient(135deg, #0b3c85 0%, #1e5ab3 100%);
+  color: var(--neutral-white);
+  border: 2px solid rgba(255, 255, 255, 0.25);
+  padding: 0.6rem 1.15rem;
+  border-radius: var(--radius-full);
+  box-shadow: 0 8px 24px rgba(11, 60, 133, 0.35);
+  cursor: pointer;
   display: flex;
-  flex-wrap: wrap;
-  gap: 0.4rem;
+  align-items: center;
+  gap: 0.6rem;
+  position: relative;
+  transition: var(--transition-normal);
 }
 
-.size-btn {
-  padding: 0.25rem 0.65rem;
-  font-size: 0.8rem;
+.fasio-trigger-btn:hover {
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: 0 12px 30px rgba(11, 60, 133, 0.45);
+}
+
+.fasio-avatar-icon {
+  width: 2.2rem;
+  height: 2.2rem;
+  background: #fbbf24;
+  color: #052352;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  font-weight: 800;
+}
+
+.fasio-btn-label {
+  font-size: 0.9rem;
   font-weight: 700;
-  border: 1px solid var(--neutral-border);
-  border-radius: var(--radius-sm);
+  letter-spacing: 0.2px;
+}
+
+.fasio-online-dot {
+  width: 0.6rem;
+  height: 0.6rem;
+  background: #22c55e;
+  border-radius: 50%;
+  border: 2px solid #ffffff;
+  position: absolute;
+  top: 0.25rem;
+  right: 0.25rem;
+}
+
+/* Fasio Chat Window */
+.fasio-chat-window {
+  position: absolute;
+  bottom: 4rem;
+  left: 0;
+  width: 360px;
+  max-width: 90vw;
+  height: 480px;
+  max-height: 80vh;
   background: var(--neutral-white);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.25);
+  border: 1px solid var(--neutral-border);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(20px) scale(0.95);
+  transition: var(--transition-normal);
+  transform-origin: bottom left;
+}
+
+.fasio-chat-window.active {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0) scale(1);
+}
+
+.fasio-header {
+  background: var(--primary-blue-dark);
+  color: var(--neutral-white);
+  padding: 0.85rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.fasio-header-info {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.fasio-avatar {
+  width: 2.3rem;
+  height: 2.3rem;
+  background: #fbbf24;
+  color: #052352;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.15rem;
+  font-weight: 800;
+}
+
+.fasio-header h3 {
+  font-size: 1rem;
+  color: var(--neutral-white);
+  line-height: 1.2;
+}
+
+.fasio-status {
+  font-size: 0.725rem;
+  color: #94a3b8;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.fasio-status i { color: #22c55e; font-size: 0.55rem; }
+
+.fasio-close-btn {
+  background: transparent;
+  border: none;
+  color: var(--neutral-white);
+  font-size: 1.2rem;
   cursor: pointer;
 }
 
-.size-btn.active {
+/* Chat Messages */
+.fasio-body {
+  flex: 1;
+  padding: 1rem;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  background: #f8fafc;
+}
+
+.fasio-msg {
+  display: flex;
+  gap: 0.5rem;
+  max-width: 85%;
+}
+
+.fasio-bot-msg { align-self: flex-start; }
+.fasio-user-msg { align-self: flex-end; flex-direction: row-reverse; }
+
+.fasio-msg-avatar {
+  width: 1.75rem;
+  height: 1.75rem;
+  background: #fbbf24;
+  color: #052352;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  font-weight: 800;
+  flex-shrink: 0;
+}
+
+.fasio-msg-bubble {
+  background: var(--neutral-white);
+  padding: 0.65rem 0.85rem;
+  border-radius: 12px;
+  font-size: 0.875rem;
+  color: var(--neutral-heading);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+  line-height: 1.4;
+  border: 1px solid var(--neutral-border);
+}
+
+.fasio-user-msg .fasio-msg-bubble {
   background: var(--primary-blue);
   color: var(--neutral-white);
   border-color: var(--primary-blue);
+}
+
+/* Chips Row */
+.fasio-chips-row {
+  padding: 0.5rem 0.75rem;
+  display: flex;
+  gap: 0.4rem;
+  overflow-x: auto;
+  background: #ffffff;
+  border-top: 1px solid var(--neutral-border);
+  scrollbar-width: none;
+}
+
+.fasio-chips-row::-webkit-scrollbar { display: none; }
+
+.fasio-chip {
+  background: var(--primary-blue-soft);
+  color: var(--primary-blue-dark);
+  border: 1px solid rgba(11, 60, 133, 0.2);
+  padding: 0.35rem 0.7rem;
+  border-radius: var(--radius-full);
+  font-size: 0.75rem;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.fasio-chip:hover {
+  background: var(--primary-blue);
+  color: var(--neutral-white);
+}
+
+/* Footer Input Form */
+.fasio-footer {
+  padding: 0.65rem 0.75rem;
+  background: var(--neutral-white);
+  border-top: 1px solid var(--neutral-border);
+  display: flex;
+  gap: 0.4rem;
+}
+
+.fasio-footer input {
+  flex: 1;
+  padding: 0.5rem 0.85rem;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--neutral-border);
+  font-size: 0.85rem;
+  outline: none;
+}
+
+.fasio-send-btn {
+  background: var(--primary-blue);
+  color: var(--neutral-white);
+  border: none;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
 }
 
 /* --- About Us Company Styling --- */
@@ -1387,6 +1601,9 @@ ul { list-style: none; }
 
   .btn-call span, .btn-whatsapp span { display: none; }
   .btn-call, .btn-whatsapp { padding: 0.5rem 0.75rem; border-radius: var(--radius-md); }
+
+  .fasio-widget-wrapper { bottom: 4.5rem; left: 0.75rem; }
+  .fasio-chat-window { bottom: 3.5rem; width: 320px; }
 
   .nav-menu {
     position: fixed;

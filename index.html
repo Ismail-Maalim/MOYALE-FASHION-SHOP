@@ -557,6 +557,58 @@
     </div>
   </div>
 
+  <!-- AI Smart Customer Assistant Chatbot: FASIO -->
+  <div class="fasio-widget-wrapper">
+    <!-- Floating Trigger Button -->
+    <button class="fasio-trigger-btn" id="fasio-trigger-btn" onclick="toggleFasioChat()" aria-label="Open Fasio AI Assistant">
+      <div class="fasio-avatar-icon">⚡</div>
+      <span class="fasio-btn-label">Chat with Fasio</span>
+      <span class="fasio-online-dot"></span>
+    </button>
+
+    <!-- Fasio Chat Drawer Window -->
+    <div class="fasio-chat-window" id="fasio-chat-window" role="dialog" aria-modal="true" aria-labelledby="fasio-title">
+      <div class="fasio-header">
+        <div class="fasio-header-info">
+          <div class="fasio-avatar">⚡</div>
+          <div>
+            <h3 id="fasio-title">Fasio AI Assistant</h3>
+            <span class="fasio-status"><i class="fa-solid fa-circle"></i> Online &bull; Garissa & Moyale Support</span>
+          </div>
+        </div>
+        <button class="fasio-close-btn" onclick="toggleFasioChat()" aria-label="Close Fasio Chat"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+
+      <!-- Messages Container -->
+      <div class="fasio-body" id="fasio-messages">
+        <!-- Initial Welcome Message -->
+        <div class="fasio-msg fasio-bot-msg">
+          <div class="fasio-msg-avatar">⚡</div>
+          <div class="fasio-msg-bubble">
+            <p>Hujambo! 👋 I'm <strong>Fasio</strong>, your AI customer assistant at Garissa & Moyale Fashion Ltd.</p>
+            <p>How can I help you today?</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Action Chips -->
+      <div class="fasio-chips-row" id="fasio-chips">
+        <button class="fasio-chip" onclick="handleFasioChip('Where are you located?')">📍 Shop Location?</button>
+        <button class="fasio-chip" onclick="handleFasioChip('What are your opening hours?')">⏰ Operating Hours?</button>
+        <button class="fasio-chip" onclick="handleFasioChip('Do you offer wholesale bulk prices?')">📦 Wholesale Bulk?</button>
+        <button class="fasio-chip" onclick="handleFasioChip('Show me shoes and sneakers')">👞 Shoes & Sneakers</button>
+        <button class="fasio-chip" onclick="handleFasioChip('Show me jackets and winter wear')">🧥 Jackets & Coats</button>
+        <button class="fasio-chip" onclick="handleFasioChip('How do I contact on WhatsApp?')">💬 WhatsApp Number?</button>
+      </div>
+
+      <!-- Chat Input Field -->
+      <form class="fasio-footer" onsubmit="sendFasioMessage(event)">
+        <input type="text" id="fasio-input" placeholder="Ask Fasio anything..." autocomplete="off" maxlength="250" required>
+        <button type="submit" class="fasio-send-btn" aria-label="Send message to Fasio"><i class="fa-solid fa-paper-plane"></i></button>
+      </form>
+    </div>
+  </div>
+
   <!-- Footer -->
   <footer class="site-footer">
     <div class="container footer-container">

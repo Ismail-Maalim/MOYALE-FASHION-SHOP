@@ -1,6 +1,6 @@
 /* ==========================================================================
    Garissa and Moyale Fashion Ltd - Secure & Dynamic E-Commerce Engine
-   Features: Hero Auto-Rotating Slider + Random Initial Selection, WebP CDN, Cart & Security
+   Features: Fasio AI Assistant Chatbot, Hero Auto-Rotating Slider, WebP CDN, Cart
    Location: Opposite Migingo/KCB, Nandi Hills Town, Kenya
    WhatsApp & Phone: 0793788938
    ========================================================================== */
@@ -524,13 +524,9 @@ function initHeroSlider() {
     `).join('');
   }
 
-  // Display initial random slide
   setHeroSlide(currentHeroIndex);
-
-  // Auto-play interval (every 4.5 seconds)
   startHeroSliderTimer();
 
-  // Pause on hover
   if (sliderCard) {
     sliderCard.addEventListener('mouseenter', () => clearInterval(heroSliderInterval));
     sliderCard.addEventListener('mouseleave', startHeroSliderTimer);
@@ -559,7 +555,6 @@ function setHeroSlide(index) {
 
   if (!slide || !imgEl) return;
 
-  // Cross-fade animation
   imgEl.classList.add('fade-out');
 
   setTimeout(() => {
@@ -569,7 +564,6 @@ function setHeroSlide(index) {
     imgEl.classList.remove('fade-out');
   }, 250);
 
-  // Update dots UI
   if (dotsContainer) {
     const dots = dotsContainer.querySelectorAll('.dot-btn');
     dots.forEach((dot, idx) => {
@@ -592,7 +586,6 @@ function renderProducts() {
 
   const sortValue = sortSelect ? sortSelect.value : 'featured';
 
-  // Filter products
   let filtered = products.filter(item => {
     const matchesFilter = (currentFilter === 'all') ||
                           (item.category === currentFilter) ||
@@ -610,7 +603,6 @@ function renderProducts() {
     return matchesFilter && matchesSearch;
   });
 
-  // Apply Sorting
   if (sortValue === 'name-asc') {
     filtered.sort((a, b) => a.title.localeCompare(b.title));
   } else if (sortValue === 'name-desc') {
@@ -901,7 +893,95 @@ function checkoutCartWhatsApp() {
   window.open(waUrl, '_blank', 'noopener,noreferrer');
 }
 
-// --- 11. Quick Form to WhatsApp with Rate Limiting & Input Sanitization ---
+// --- 11. FASIO AI Customer Assistant Chatbot Logic ---
+function toggleFasioChat() {
+  const windowEl = document.getElementById('fasio-chat-window');
+  if (windowEl) {
+    windowEl.classList.toggle('active');
+  }
+}
+
+function sendFasioMessage(e) {
+  e.preventDefault();
+  const inputEl = document.getElementById('fasio-input');
+  if (!inputEl) return;
+
+  const rawText = inputEl.value;
+  if (!rawText.trim()) return;
+
+  // Add User Message
+  appendFasioMsg(rawText, 'user');
+  inputEl.value = '';
+
+  // Generate Fasio Smart Response
+  setTimeout(() => {
+    const reply = getFasioBotResponse(rawText);
+    appendFasioMsg(reply, 'bot');
+  }, 400);
+}
+
+function handleFasioChip(promptText) {
+  appendFasioMsg(promptText, 'user');
+  setTimeout(() => {
+    const reply = getFasioBotResponse(promptText);
+    appendFasioMsg(reply, 'bot');
+  }, 400);
+}
+
+function appendFasioMsg(text, sender) {
+  const msgsContainer = document.getElementById('fasio-messages');
+  if (!msgsContainer) return;
+
+  const safeText = sanitizeHTML(text);
+  const msgDiv = document.createElement('div');
+  msgDiv.className = `fasio-msg ${sender === 'user' ? 'fasio-user-msg' : 'fasio-bot-msg'}`;
+
+  msgDiv.innerHTML = `
+    <div class="fasio-msg-avatar">${sender === 'user' ? '👤' : '⚡'}</div>
+    <div class="fasio-msg-bubble">
+      <p>${safeText}</p>
+    </div>
+  `;
+
+  msgsContainer.appendChild(msgDiv);
+  msgsContainer.scrollTop = msgsContainer.scrollHeight;
+}
+
+function getFasioBotResponse(query) {
+  const q = query.toLowerCase();
+
+  if (q.includes('location') || q.includes('where') || q.includes('nandi') || q.includes('address') || q.includes('place')) {
+    return "📍 We are located Opposite Migingo / KCB in Nandi Hills Town, Nandi County, Kenya! We also deliver wholesale & retail orders countrywide across Kenya.";
+  }
+
+  if (q.includes('hour') || q.includes('time') || q.includes('open') || q.includes('close') || q.includes('sunday')) {
+    return "⏰ We open daily from 8:00 AM to 9:00 PM (Monday through Sunday)! Drop by our shop or contact us anytime during working hours.";
+  }
+
+  if (q.includes('wholesale') || q.includes('bulk') || q.includes('resale') || q.includes('reseller') || q.includes('boutique')) {
+    return "📦 Yes! We are major wholesalers and supply boutiques, traders, schools, and resellers across Kenya. Call or WhatsApp 0793788938 for reseller bulk quotes!";
+  }
+
+  if (q.includes('shoe') || q.includes('sneaker') || q.includes('heels') || q.includes('mary jane') || q.includes('samba') || q.includes('boot') || q.includes('loafer')) {
+    return "👞 We stock Mary Jane strap heels (White, Black, Beige, Grey MB26-25J), Samba classic sneakers, Nike running shoes, Kaisifeier leather dress shoes, loafers & hiking boots! Check out our Shoes section above!";
+  }
+
+  if (q.includes('jacket') || q.includes('coat') || q.includes('sweater') || q.includes('winter') || q.includes('varsity') || q.includes('denim')) {
+    return "🧥 We stock Varsity bomber jackets, Puffer pillow winter jackets, Planda heavy jackets, XL to 4XL coats, fleece-lined denim jackets & warm knit sweaters!";
+  }
+
+  if (q.includes('whatsapp') || q.includes('contact') || q.includes('phone') || q.includes('number') || q.includes('call')) {
+    return "📞 You can call or WhatsApp us directly at 0793788938 (+254 793 788 938). We respond instantly!";
+  }
+
+  if (q.includes('price') || q.includes('cost') || q.includes('ksh') || q.includes('how much')) {
+    return "🏷️ We guarantee 'Kwa Bei Nafuu' (Affordable Prices)! Our prices are the best in Nandi Hills for both wholesale and retail. Ask us about any specific product!";
+  }
+
+  return "⚡ I am Fasio! I can help you find products, check wholesale prices, or guide you to our shop in Nandi Hills Town (Opposite Migingo/KCB). Feel free to ask about jackets, Mary Jane heels, Samba sneakers, or call 0793788938!";
+}
+
+// --- 12. Quick Form to WhatsApp with Rate Limiting & Input Sanitization ---
 function sendFormToWhatsApp(e) {
   e.preventDefault();
 
@@ -928,7 +1008,7 @@ function sendFormToWhatsApp(e) {
   window.open(waUrl, '_blank', 'noopener,noreferrer');
 }
 
-// --- 12. Update Footer Year ---
+// --- 13. Update Footer Year ---
 function updateFooterYear() {
   const yearEl = document.getElementById('current-year');
   if (yearEl) {
