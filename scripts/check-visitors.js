@@ -16,7 +16,6 @@ const VisitorSchema = new mongoose.Schema({
   cartItems: [{ productId: String, title: String, qty: Number, addedAt: Date }],
   userAgent: String
 }, { timestamps: true });
-
 const Visitor = mongoose.models.Visitor || mongoose.model('Visitor', VisitorSchema);
 
 async function main() {

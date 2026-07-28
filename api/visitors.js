@@ -16,10 +16,12 @@ module.exports = async function handler(req, res) {
 
   try {
     const conn = await dbConnect();
-    if (!conn) return res.status(503).json({ success: false });
+    if (!conn) {
+      return res.status(200).json({ success: true, mode: 'local' });
+    }
 
     const { visitorId, theme, cartItems } = req.body || {};
-    if (!visitorId) return res.status(400).json({ success: false, message: 'visitorId is required' });
+    if (!visitorId) return res.status(200).json({ success: true, mode: 'local' });
 
     const updated = await Visitor.findOneAndUpdate(
       { visitorId },
@@ -32,6 +34,6 @@ module.exports = async function handler(req, res) {
 
     return res.status(200).json({ success: true, visitor: updated });
   } catch (err) {
-    return res.status(500).json({ success: false, error: err.message });
+    return res.status(200).json({ success: true, mode: 'local' });
   }
 };
