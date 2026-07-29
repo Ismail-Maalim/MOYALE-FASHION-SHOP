@@ -1,9 +1,31 @@
 /* ==========================================================================
-   Garissa and Moyale Fashion Ltd - Secure E-Commerce Engine with MongoDB Atlas
-   Features: MongoDB Atlas API Integration, System Light/Dark Theme, Fasio AI, Cart Drawer
+   Garissa and Moyale Fashion Ltd - Secure E-Commerce Engine
+   Features: Input Sanitization (XSS Prevention), Rate Limiting, CSP Support, WebP CDN, Cart & WhatsApp Checkout
    Location: Opposite Migingo/KCB, Nandi Hills Town, Kenya
    WhatsApp & Phone: 0793788938
    ========================================================================== */
+
+// --- Console Copyright Banner (DevTools Easter Egg) ---
+(function () {
+  const reset = 'color: inherit; font-size: 12px;';
+  const brand = 'color: #c8a96e; font-size: 22px; font-weight: 900; font-family: Georgia, serif; letter-spacing: 2px;';
+  const sub = 'color: #888; font-size: 11px; font-style: italic;';
+  const info = 'color: #ccc; font-size: 12px;';
+  const warn = 'color: #e74c3c; font-size: 13px; font-weight: bold;';
+  const divider = 'color: #c8a96e; font-size: 10px;';
+
+  console.log('%c━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━', divider);
+  console.log('%cGarissa & Moyale Fashion Ltd', brand);
+  console.log('%c✦ Premium Fashion • Kenya\'s Finest ✦', sub);
+  console.log('%c━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━', divider);
+  console.log('%c© 2025 Garissa and Moyale Fashion Ltd. All rights reserved.', info);
+  console.log('%c📍 Opposite Migingo/KCB, Nandi Hills Town, Kenya', info);
+  console.log('%c📞 WhatsApp & Phone: 0793788938', info);
+  console.log('%c━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━', divider);
+  console.log('%c⛔ STOP! This is a browser feature intended for developers.', warn);
+  console.log('%cDo NOT paste code here that you do not understand. It may compromise your account or data.', reset);
+  console.log('%c━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━', divider);
+})();
 
 // --- 1. Security Utilities (XSS Prevention & HTML Sanitization) ---
 function sanitizeHTML(str) {
@@ -26,88 +48,9 @@ function optimizeCldUrl(url) {
   return url;
 }
 
-// --- 3. System Light & Dark Theme Management ---
-let currentTheme = 'light';
-
-function initTheme() {
-  const savedTheme = localStorage.getItem('gm_fashion_theme');
-  const systemPrefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-
-  if (savedTheme) {
-    currentTheme = savedTheme;
-  } else if (systemPrefersDark) {
-    currentTheme = 'dark';
-  } else {
-    currentTheme = 'light';
-  }
-
-  applyTheme(currentTheme);
-
-  if (window.matchMedia) {
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
-      if (!localStorage.getItem('gm_fashion_theme')) {
-        applyTheme(e.matches ? 'dark' : 'light');
-      }
-    });
-  }
-}
-
-function toggleTheme() {
-  currentTheme = (currentTheme === 'dark') ? 'light' : 'dark';
-  localStorage.setItem('gm_fashion_theme', currentTheme);
-  applyTheme(currentTheme);
-  syncVisitorSession();
-}
-
-function applyTheme(theme) {
-  currentTheme = theme;
-  document.documentElement.setAttribute('data-theme', theme);
-
-  const themeIcon = document.getElementById('theme-icon');
-  const themeToggleBtn = document.getElementById('theme-toggle-btn');
-
-  if (themeIcon) {
-    if (theme === 'dark') {
-      themeIcon.className = 'fa-solid fa-sun';
-      if (themeToggleBtn) themeToggleBtn.setAttribute('title', 'Switch to Light Theme');
-    } else {
-      themeIcon.className = 'fa-solid fa-moon';
-      if (themeToggleBtn) themeToggleBtn.setAttribute('title', 'Switch to Dark Theme');
-    }
-  }
-}
-
-// --- 4. Featured Hero Carousel Items Array ---
-const heroFeaturedSlides = [
-  {
-    title: "Varsity Bomber Jacket",
-    tag: "Men & Unisex Outerwear",
-    image: optimizeCldUrl("https://res.cloudinary.com/omvbgydr/image/upload/v1785012781/varsity_mont_dos6ks.png")
-  },
-  {
-    title: "White Mary Jane Strap Heels",
-    tag: "Ladies Footwear Collection",
-    image: optimizeCldUrl("https://res.cloudinary.com/omvbgydr/image/upload/v1785012782/white_marry_jane_kkvxqs.png")
-  },
-  {
-    title: "Samba Classic White Sneakers",
-    tag: "Sneaker & Streetwear Collection",
-    image: optimizeCldUrl("https://res.cloudinary.com/omvbgydr/image/upload/v1785012778/samba_sneakers_w7o66r.png")
-  },
-  {
-    title: "Kaisifeier Leather Dress Shoes",
-    tag: "Executive Men Official Shoes",
-    image: optimizeCldUrl("https://res.cloudinary.com/omvbgydr/image/upload/v1785012772/leathershoe_fchd8h.jpg")
-  },
-  {
-    title: "Puffer Pillow Winter Jacket",
-    tag: "Heavy Winter Wear",
-    image: optimizeCldUrl("https://res.cloudinary.com/omvbgydr/image/upload/v1785012775/pillow_jacket_qyzlnw.png")
-  }
-];
-
-// --- 5. Clean Kebab-Case Product Data Store (Fallback & Offline Support) ---
+// --- 3. Clean Kebab-Case Product Data Store ---
 const rawProducts = [
+  // Outerwear & Jackets
   {
     id: 'varsity-bomber-jacket',
     title: "Varsity Bomber Jacket",
@@ -262,6 +205,8 @@ const rawProducts = [
     description: "Soft knit sweater designed for cozy warmth and comfortable daily layering.",
     badge: "Kwa Bei Nafuu"
   },
+
+  // Women's Wear & Jeans
   {
     id: 'women-stylish-denim-jeans',
     title: "Women's Stylish Denim Jeans",
@@ -306,6 +251,8 @@ const rawProducts = [
     description: "Chic leopard print fashion top and dress collection for ladies.",
     badge: "Trendy"
   },
+
+  // Women's Mary Jane Shoes & Heels
   {
     id: 'white-mary-jane-strap-heels',
     title: "White Mary Jane Strap Heels",
@@ -372,6 +319,8 @@ const rawProducts = [
     description: "Classy grey Mary Jane pumps (Model MB26-25J) available in all sizes.",
     badge: "Kwa Bei Nafuu"
   },
+
+  // Sneakers & Athletic Shoes
   {
     id: 'samba-classic-white-sneakers',
     title: "Samba Classic White Sneakers",
@@ -449,6 +398,8 @@ const rawProducts = [
     description: "Lightweight flexible mesh running shoes for maximum breathability.",
     badge: "Kwa Bei Nafuu"
   },
+
+  // Men's Leather Official Shoes, Loafers & Boots
   {
     id: 'kaisifeier-leather-dress-shoes',
     title: "Kaisifeier Men's Leather Dress Shoes",
@@ -506,8 +457,8 @@ const rawProducts = [
   }
 ];
 
-// Active products array (dynamically loaded from MongoDB Atlas or fallback)
-let products = rawProducts.map(p => ({
+// Optimize all image URLs for WebP & compression
+const products = rawProducts.map(p => ({
   ...p,
   image: optimizeCldUrl(p.image)
 }));
@@ -520,63 +471,7 @@ let currentFilter = 'all';
 let currentSearch = '';
 let cart = loadCart();
 let activeModalProduct = null;
-let lastSubmissionTime = 0;
-
-// Hero Slider State (Random Initial Selection)
-let currentHeroIndex = Math.floor(Math.random() * heroFeaturedSlides.length);
-let heroSliderInterval = null;
-
-// --- Visitor Identification for Database Session Sync ---
-function getVisitorId() {
-  let vid = localStorage.getItem('gm_visitor_id');
-  if (!vid) {
-    vid = 'v_' + Math.random().toString(36).substring(2, 11) + '_' + Date.now();
-    localStorage.setItem('gm_visitor_id', vid);
-  }
-  return vid;
-}
-
-// --- Asynchronous MongoDB Atlas Product Catalog Fetcher ---
-async function fetchProductsFromMongoDB() {
-  try {
-    const response = await fetch('/api/products');
-    if (!response.ok) return;
-    const json = await response.json();
-
-    if (json.success && Array.isArray(json.data) && json.data.length > 0) {
-      products = json.data.map(p => ({
-        id: p.productId || p.id,
-        title: p.title,
-        category: p.category,
-        subCat: p.subCat,
-        gender: p.gender,
-        genderLabel: p.genderLabel,
-        image: optimizeCldUrl(p.image),
-        description: p.description,
-        badge: p.badge || 'Kwa Bei Nafuu'
-      }));
-      renderProducts();
-    }
-  } catch (e) {
-    // Graceful fallback to static array if API server is not active
-  }
-}
-
-// --- Sync Session Data to MongoDB Database ---
-async function syncVisitorSession() {
-  try {
-    const vid = getVisitorId();
-    await fetch('/api/visitors', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        visitorId: vid,
-        theme: currentTheme,
-        cartItems: cart.map(item => ({ productId: item.id, title: item.title, qty: item.qty }))
-      })
-    });
-  } catch (e) {}
-}
+let lastSubmissionTime = 0; // Anti-Automation Throttle
 
 // --- Secure LocalStorage Cart Loader ---
 function loadCart() {
@@ -585,6 +480,7 @@ function loadCart() {
     if (!saved) return [];
     const parsed = JSON.parse(saved);
     if (!Array.isArray(parsed)) return [];
+    // Validate object structure against tampering
     return parsed.filter(item => item && typeof item.id === 'string' && typeof item.qty === 'number' && item.qty > 0);
   } catch (e) {
     return [];
@@ -595,112 +491,46 @@ function saveCart() {
   try {
     localStorage.setItem('gm_fashion_cart', JSON.stringify(cart));
     updateCartUI();
-    syncVisitorSession();
-  } catch (e) {}
+  } catch (e) { }
 }
 
 // --- DOM Initialization ---
 document.addEventListener('DOMContentLoaded', () => {
-  initTheme();
   renderProducts();
   setupEventListeners();
   updateFooterYear();
   updateCartUI();
-  initHeroSlider();
-  fetchProductsFromMongoDB();
-  syncVisitorSession();
 });
 
-// --- 6. Hero Carousel Slider Implementation (Random Start + Auto-Rotate) ---
-function initHeroSlider() {
-  const dotsContainer = document.getElementById('hero-slider-dots');
-  const sliderCard = document.getElementById('hero-slider-card');
-
-  if (dotsContainer) {
-    dotsContainer.innerHTML = heroFeaturedSlides.map((slide, idx) => `
-      <button class="dot-btn ${idx === currentHeroIndex ? 'active' : ''}" onclick="goToHeroSlide(${idx})" aria-label="Slide ${idx + 1}: ${slide.title}"></button>
-    `).join('');
-  }
-
-  setHeroSlide(currentHeroIndex);
-  startHeroSliderTimer();
-
-  if (sliderCard) {
-    sliderCard.addEventListener('mouseenter', () => clearInterval(heroSliderInterval));
-    sliderCard.addEventListener('mouseleave', startHeroSliderTimer);
-  }
-}
-
-function startHeroSliderTimer() {
-  clearInterval(heroSliderInterval);
-  heroSliderInterval = setInterval(() => {
-    currentHeroIndex = (currentHeroIndex + 1) % heroFeaturedSlides.length;
-    setHeroSlide(currentHeroIndex);
-  }, 4500);
-}
-
-function goToHeroSlide(index) {
-  currentHeroIndex = index;
-  setHeroSlide(currentHeroIndex);
-  startHeroSliderTimer();
-}
-
-function setHeroSlide(index) {
-  const imgEl = document.getElementById('hero-img');
-  const titleEl = document.getElementById('hero-slide-title');
-  const dotsContainer = document.getElementById('hero-slider-dots');
-  const slide = heroFeaturedSlides[index];
-
-  if (!slide || !imgEl) return;
-
-  imgEl.classList.add('fade-out');
-
-  setTimeout(() => {
-    imgEl.src = slide.image;
-    imgEl.alt = `${slide.title} - ${slide.tag}`;
-    if (titleEl) titleEl.textContent = slide.title;
-    imgEl.classList.remove('fade-out');
-  }, 250);
-
-  if (dotsContainer) {
-    const dots = dotsContainer.querySelectorAll('.dot-btn');
-    dots.forEach((dot, idx) => {
-      if (idx === index) {
-        dot.classList.add('active');
-      } else {
-        dot.classList.remove('active');
-      }
-    });
-  }
-}
-
-// --- 7. Render Products Grid with Sorting & Filtering ---
+// --- 4. Render Products Grid with Sorting & Filtering ---
 function renderProducts() {
   const grid = document.getElementById('products-grid');
   const emptyState = document.getElementById('empty-state');
   const sortSelect = document.getElementById('catalog-sort');
-  
+
   if (!grid) return;
 
   const sortValue = sortSelect ? sortSelect.value : 'featured';
 
+  // Filter products
   let filtered = products.filter(item => {
     const matchesFilter = (currentFilter === 'all') ||
-                          (item.category === currentFilter) ||
-                          (item.subCat === currentFilter) ||
-                          (currentFilter === 'mens' && (item.gender === 'mens' || item.gender === 'both')) ||
-                          (currentFilter === 'ladies' && (item.gender === 'ladies' || item.gender === 'both'));
+      (item.category === currentFilter) ||
+      (item.subCat === currentFilter) ||
+      (currentFilter === 'mens' && (item.gender === 'mens' || item.gender === 'both')) ||
+      (currentFilter === 'ladies' && (item.gender === 'ladies' || item.gender === 'both'));
 
     const query = currentSearch.toLowerCase().trim();
-    const matchesSearch = !query || 
-                          item.title.toLowerCase().includes(query) || 
-                          item.description.toLowerCase().includes(query) ||
-                          item.category.toLowerCase().includes(query) ||
-                          item.genderLabel.toLowerCase().includes(query);
+    const matchesSearch = !query ||
+      item.title.toLowerCase().includes(query) ||
+      item.description.toLowerCase().includes(query) ||
+      item.category.toLowerCase().includes(query) ||
+      item.genderLabel.toLowerCase().includes(query);
 
     return matchesFilter && matchesSearch;
   });
 
+  // Apply Sorting
   if (sortValue === 'name-asc') {
     filtered.sort((a, b) => a.title.localeCompare(b.title));
   } else if (sortValue === 'name-desc') {
@@ -754,7 +584,7 @@ function renderProducts() {
   }).join('');
 }
 
-// --- 8. Event Listeners Setup ---
+// --- 5. Event Listeners Setup ---
 function setupEventListeners() {
   const mobileToggle = document.getElementById('mobile-toggle');
   const navMenu = document.getElementById('nav-menu');
@@ -785,11 +615,11 @@ function setupEventListeners() {
   });
 }
 
-// --- 9. Search Filter Handler ---
+// --- 6. Search Filter Handler ---
 function filterProducts() {
   const searchInput = document.getElementById('gallery-search');
   const clearBtn = document.getElementById('clear-search');
-  
+
   if (searchInput) {
     currentSearch = sanitizeHTML(searchInput.value);
     if (clearBtn) {
@@ -802,7 +632,7 @@ function filterProducts() {
 function clearSearch() {
   const searchInput = document.getElementById('gallery-search');
   const clearBtn = document.getElementById('clear-search');
-  
+
   if (searchInput) {
     searchInput.value = '';
     currentSearch = '';
@@ -820,7 +650,7 @@ function filterGalleryCategory(category) {
       t.classList.remove('active');
     }
   });
-  
+
   currentFilter = category;
   renderProducts();
 
@@ -835,7 +665,7 @@ function resetGallery() {
   filterGalleryCategory('all');
 }
 
-// --- 10. Interactive Modal Handler ---
+// --- 7. Interactive Modal Handler ---
 function openProductModal(productId) {
   const product = products.find(p => p.id === productId);
   if (!product) return;
@@ -885,7 +715,7 @@ document.addEventListener('keydown', (e) => {
   }
 });
 
-// --- 11. Cart Drawer Management ---
+// --- 8. Cart Drawer Management ---
 function addToCart(productId) {
   const product = products.find(p => p.id === productId);
   if (!product) return;
@@ -991,103 +821,18 @@ function checkoutCartWhatsApp() {
   window.open(waUrl, '_blank', 'noopener,noreferrer');
 }
 
-// --- 12. FASIO AI Customer Assistant Chatbot Logic ---
-function toggleFasioChat() {
-  const windowEl = document.getElementById('fasio-chat-window');
-  if (windowEl) {
-    windowEl.classList.toggle('active');
-  }
-}
-
-function sendFasioMessage(e) {
-  e.preventDefault();
-  const inputEl = document.getElementById('fasio-input');
-  if (!inputEl) return;
-
-  const rawText = inputEl.value;
-  if (!rawText.trim()) return;
-
-  appendFasioMsg(rawText, 'user');
-  inputEl.value = '';
-
-  setTimeout(() => {
-    const reply = getFasioBotResponse(rawText);
-    appendFasioMsg(reply, 'bot');
-  }, 400);
-}
-
-function handleFasioChip(promptText) {
-  appendFasioMsg(promptText, 'user');
-  setTimeout(() => {
-    const reply = getFasioBotResponse(promptText);
-    appendFasioMsg(reply, 'bot');
-  }, 400);
-}
-
-function appendFasioMsg(text, sender) {
-  const msgsContainer = document.getElementById('fasio-messages');
-  if (!msgsContainer) return;
-
-  const safeText = sanitizeHTML(text);
-  const msgDiv = document.createElement('div');
-  msgDiv.className = `fasio-msg ${sender === 'user' ? 'fasio-user-msg' : 'fasio-bot-msg'}`;
-
-  msgDiv.innerHTML = `
-    <div class="fasio-msg-avatar">${sender === 'user' ? '👤' : '⚡'}</div>
-    <div class="fasio-msg-bubble">
-      <p>${safeText}</p>
-    </div>
-  `;
-
-  msgsContainer.appendChild(msgDiv);
-  msgsContainer.scrollTop = msgsContainer.scrollHeight;
-}
-
-function getFasioBotResponse(query) {
-  const q = query.toLowerCase();
-
-  if (q.includes('location') || q.includes('where') || q.includes('nandi') || q.includes('address') || q.includes('place')) {
-    return "📍 We are located Opposite Migingo / KCB in Nandi Hills Town, Nandi County, Kenya! We also deliver wholesale & retail orders countrywide across Kenya.";
-  }
-
-  if (q.includes('hour') || q.includes('time') || q.includes('open') || q.includes('close') || q.includes('sunday')) {
-    return "⏰ We open daily from 8:00 AM to 9:00 PM (Monday through Sunday)! Drop by our shop or contact us anytime during working hours.";
-  }
-
-  if (q.includes('wholesale') || q.includes('bulk') || q.includes('resale') || q.includes('reseller') || q.includes('boutique')) {
-    return "📦 Yes! We are major wholesalers and supply boutiques, traders, schools, and resellers across Kenya. Call or WhatsApp 0793788938 for reseller bulk quotes!";
-  }
-
-  if (q.includes('shoe') || q.includes('sneaker') || q.includes('heels') || q.includes('mary jane') || q.includes('samba') || q.includes('boot') || q.includes('loafer')) {
-    return "👞 We stock Mary Jane strap heels (White, Black, Beige, Grey MB26-25J), Samba classic sneakers, Nike running shoes, Kaisifeier leather dress shoes, loafers & hiking boots! Check out our Shoes section above!";
-  }
-
-  if (q.includes('jacket') || q.includes('coat') || q.includes('sweater') || q.includes('winter') || q.includes('varsity') || q.includes('denim')) {
-    return "🧥 We stock Varsity bomber jackets, Puffer pillow winter jackets, Planda heavy jackets, XL to 4XL coats, fleece-lined denim jackets & warm knit sweaters!";
-  }
-
-  if (q.includes('whatsapp') || q.includes('contact') || q.includes('phone') || q.includes('number') || q.includes('call')) {
-    return "📞 You can call or WhatsApp us directly at 0793788938 (+254 793 788 938). We respond instantly!";
-  }
-
-  if (q.includes('price') || q.includes('cost') || q.includes('ksh') || q.includes('how much')) {
-    return "🏷️ We guarantee 'Kwa Bei Nafuu' (Affordable Prices)! Our prices are the best in Nandi Hills for both wholesale and retail. Ask us about any specific product!";
-  }
-
-  return "⚡ I am Fasio! I can help you find products, check wholesale prices, or guide you to our shop in Nandi Hills Town (Opposite Migingo/KCB). Feel free to ask about jackets, Mary Jane heels, Samba sneakers, or call 0793788938!";
-}
-
-// --- 13. Quick Form to WhatsApp with Database Ingestion & Anti-Automation ---
-async function sendFormToWhatsApp(e) {
+// --- 9. Quick Form to WhatsApp with Rate Limiting & Input Sanitization ---
+function sendFormToWhatsApp(e) {
   e.preventDefault();
 
+  // Anti-Automation Rate Limiting (Throttle 3 seconds between clicks)
   const now = Date.now();
   if (now - lastSubmissionTime < 3000) {
     alert("Please wait a moment before submitting another inquiry.");
     return;
   }
   lastSubmissionTime = now;
-  
+
   const rawName = document.getElementById('form-name')?.value || 'Customer';
   const rawOrderType = document.getElementById('form-order-type')?.value || 'Retail/Wholesale';
   const rawItemType = document.getElementById('form-item-type')?.value || 'Fashion Item';
@@ -1098,22 +843,13 @@ async function sendFormToWhatsApp(e) {
   const itemType = sanitizeHTML(rawItemType.trim());
   const userMsg = sanitizeHTML(rawUserMsg.trim());
 
-  // Log inquiry to MongoDB Atlas database asynchronously
-  try {
-    await fetch('/api/inquiries', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name, orderType, itemType, message: userMsg })
-    });
-  } catch (err) {}
-
   const fullMsg = `Hello Garissa and Moyale Fashion Ltd!\nMy name is ${name}.\nOrder Type: ${orderType}\nProduct Category: ${itemType}\nDetails: ${userMsg}\n(Sent from your website)`;
-  
+
   const waUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(fullMsg)}`;
   window.open(waUrl, '_blank', 'noopener,noreferrer');
 }
 
-// --- 14. Update Footer Year ---
+// --- 10. Update Footer Year ---
 function updateFooterYear() {
   const yearEl = document.getElementById('current-year');
   if (yearEl) {
